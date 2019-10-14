@@ -16,7 +16,7 @@ This package originally built for Laravel, but can also be used in any PHP proje
 
 [Read more about integration with PHP project here.](#integration-with-other-php-project)
 
-### Laravel 5.2/5.3/5.4/5.5:
+### Laravel >= 5.2:
 ``` bash
 $ composer require laravolt/avatar
 ```
@@ -66,6 +66,16 @@ Avatar::create('Joko Widodo')->toBase64();
 Avatar::create('Susilo Bambang Yudhoyono')->save('sample.png');
 Avatar::create('Susilo Bambang Yudhoyono')->save('sample.jpg', 100); // quality = 100
 ```
+
+### Output As Gravatar
+```php
+Avatar::create('uyab@example.net')->toGravatar();
+// Output: http://gravatar.com/avatar/0dcae7d6d76f9a3b14588e9671c45879
+
+Avatar::create('uyab@example.net')->toGravatar(['d' => 'identicon', 'r' => 'pg', 's' => 100]);
+// Output: http://gravatar.com/avatar/0dcae7d6d76f9a3b14588e9671c45879?d=identicon&r=pg&s=100
+```
+Gravatar parameter reference: https://en.gravatar.com/site/implement/images/
 
 ### Output As SVG
 ```php

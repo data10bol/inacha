@@ -50,6 +50,9 @@ ADmantX
 AdminLabs
 adressendeutschland
 adscanner
+Adstxtaggregator
+adstxt-worker
+adstxt\.com
 agentslug
 AHC
 aihit
@@ -83,6 +86,7 @@ APIs-Google
 AportWorm\/
 AppBeat\/
 AppEngine-Google
+AppleSyndication
 AppStoreScraperZ
 Aprc\/[0-9]
 Arachmo
@@ -99,6 +103,7 @@ Astute
 asynchttp
 Attach
 autocite
+AutomaticWPTester
 Autonomy
 axios\/
 B-l-i-t-z-B-O-T
@@ -208,10 +213,12 @@ CopyRightCheck
 Copyscape
 Cosmos4j\.feedback
 Covario-IDS
+Craw\/
 Crescent
 Crowsnest
 Criteo
 CSHttp
+CSSCheck
 curb
 Curious George
 curl
@@ -227,6 +234,9 @@ DataparkSearch
 dataprovider
 DataXu
 Daum(oa)?[ \/][0-9]
+dBpoweramp
+ddline
+deeris
 Demon
 DeuSu
 developers\.google\.com\/\+\/web\/snippet\/
@@ -235,6 +245,7 @@ Digg
 Digincore
 DigitalPebble
 Dirbuster
+Discourse Forum Onebox
 Disqus\/
 Dispatch\/
 DittoSpyder
@@ -299,6 +310,7 @@ fasthttp
 Faveeo
 Favicon downloader
 faviconkit
+faviconarchive
 FavOrg
 Feed Wrangler
 Feedable\/
@@ -349,6 +361,7 @@ GetRight
 getroot
 GetURLInfo\/
 GetWeb
+Geziyor
 Ghost Inspector
 GigablastOpenSource
 GIS-LABS
@@ -400,6 +413,7 @@ GrabNet
 Grafula
 Grammarly
 GrapeFX
+GreatNews
 Gregarius
 GRequests
 grokkit
@@ -452,6 +466,7 @@ http_get
 HttpComponents
 httphr
 HTTPMon
+HTTPie
 httpRequest
 httpscheck
 httpssites_power
@@ -498,6 +513,7 @@ internet_archive
 Internet Ninja
 InternetSeer
 internetVista monitor
+internetwache
 intraVnews
 IODC
 IOI
@@ -512,6 +528,7 @@ isitup\.org
 iskanie
 isUp\.li
 iThemes Sync\/
+IZaBEE
 iZSearch
 JAHHO
 janforman
@@ -538,6 +555,7 @@ Kerrigan\/
 KeyCDN
 Keyword Density
 Keywords Research
+khttp\/
 KickFire
 KimonoLabs\/
 Kml-Google
@@ -561,6 +579,7 @@ libwww
 Licorne
 Liferea\/
 Lightspeedsystems
+Lighthouse
 Likse
 Link Valet
 link_thumbnailer
@@ -581,6 +600,7 @@ livedoor ScreenShot
 LoadImpactRload
 localsearch-web
 LongURL API
+looid\.com
 looksystems\.net
 ltx71
 lua-resty-http
@@ -604,11 +624,13 @@ MarkWatch
 Mass Downloader
 masscan\/
 Mata Hari
+Mediametric
 Mediapartners-Google
 mediawords
 MegaIndex\.ru
 MeltwaterNews
 Melvil Rawi
+MemGator
 Metaspinner
 MetaURI
 MFC_Tear_Sample
@@ -692,9 +714,11 @@ node\.io
 Nodemeter
 NodePing
 nominet\.org\.uk
+nominet\.uk
 Norton-Safeweb
 Notifixious
 notifyninja
+NotionEmbedder
 nuhk
 nutch
 Nuzzel
@@ -707,6 +731,7 @@ Octopus
 oegp
 Offline Explorer
 Offline Navigator
+OgScrper
 og-scraper
 okhttp
 omgili
@@ -817,6 +842,7 @@ RankActive
 RankFlex
 RankSonicSiteAuditor
 Re-re Studio
+ReactorNetty
 Readability
 RealDownload
 RealPlayer%20Downloader
@@ -825,9 +851,11 @@ Recorder
 RecurPost\/
 redback\/
 ReederForMac
+Reeder\/
 ReGet
 RepoMonkey
 request\.js
+reqwest\/
 ResponseCodeTest
 RestSharp
 Riddler
@@ -991,6 +1019,7 @@ terrainformatica
 Test Certificate Info
 testuri
 Tetrahedron
+TextRazor Downloader
 The Drop Reaper
 The Expert HTML Source Viewer
 The Knowledge AI
@@ -1000,6 +1029,7 @@ TheNomad
 Thinklab
 Thumbshots
 ThumbSniper
+Thumbor
 timewe\.net
 TinEye
 Tiny Tiny RSS
@@ -1009,6 +1039,7 @@ topster
 touche\.com
 Traackr\.com
 tracemyfile
+Trackuity
 TrapitAgent
 Trendiction
 Trendsmap
@@ -1030,6 +1061,7 @@ Typhoeus
 ubermetrics-technologies
 uclassify
 UdmSearch
+unchaos
 unirest-java
 UniversalFeedParser
 Unshorten\.It
@@ -1039,10 +1071,12 @@ updated
 updown\.io daemon
 Upflow
 Uptimia
+Urlcheckr
 URL Verifier
 URLitor
 urlresolver
 Urlstat
+URLTester
 UrlTrends Ranking Updater
 URLy Warning
 URLy\.Warning
@@ -1085,6 +1119,7 @@ Web Fetch
 Web Fuck
 Web Pix
 Web Sauger
+Web spyder
 Web Sucker
 Webalta
 Webauskunft
@@ -1145,8 +1180,10 @@ WinPodder
 wkhtmlto
 wmtips
 Woko
+woorankreview
 Word\/
 WordPress\/
+worldping-api
 WordupinfoSearch
 wotbox
 WP Engine Install Performance API
@@ -1194,9 +1231,10 @@ Zemanta Aggregator
 Zend_Http_Client
 Zend\\Http\\Client
 Zermelo
-Zeus
+Zeus 
 zgrab
 ZnajdzFoto
+ZnHTTP
 Zombie\.js
 Zoom\.Mac
 ZyBorg

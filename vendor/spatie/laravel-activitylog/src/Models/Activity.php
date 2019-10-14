@@ -2,6 +2,7 @@
 
 namespace Spatie\Activitylog\Models;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,6 +19,10 @@ class Activity extends Model implements ActivityContract
 
     public function __construct(array $attributes = [])
     {
+        if (! isset($this->connection)) {
+            $this->setConnection(config('activitylog.database_connection'));
+        }
+
         if (! isset($this->table)) {
             $this->setTable(config('activitylog.table_name'));
         }
@@ -41,7 +46,7 @@ class Activity extends Model implements ActivityContract
 
     public function getExtraProperty(string $propertyName)
     {
-        return array_get($this->properties->toArray(), $propertyName);
+        return Arr::get($this->properties->toArray(), $propertyName);
     }
 
     public function changes(): Collection
