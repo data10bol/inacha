@@ -141,23 +141,23 @@
       </td>
       <td class="align-top text-justify">
         <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
-        {!! substr($operation->definitions->first()->description, 0, 200) !!}
-        {!! strlen($operation->definitions->first()->description) > 200 ? '...' : '' !!}
+        {!! substr($operation->definitions->last()->description, 0, 200) !!}
+        {!! strlen($operation->definitions->last()->description) > 200 ? '...' : '' !!}
         </span>
       </td>
       <td class="align-top text-center">
         <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
-        {{ $operation->definitions->first()->ponderation }}
+        {{ $operation->definitions->last()->ponderation }}
         </span>
       </td>
       <td class="align-top text-center">
         <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
-        {{ $operation->definitions->first()->aim }}
+        {{ $operation->definitions->last()->aim }}
         </span>
       </td>
       <td class="align-top text-center">
         <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
-        {{ $operation->definitions->first()->pointer }}
+        {{ $operation->definitions->last()->pointer }}
         </span>
       </td>
       <td class="align-top text-center">
