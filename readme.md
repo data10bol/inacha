@@ -16,7 +16,7 @@ Este sistema de planificación fue desarrollado con el propósito de dar seguimi
 
 `git commit -m ‘Breve comentario de cambios realiados’`
 
-`git push`
+`git push origin master`
 
 #### Ver estado del repositorio
 
