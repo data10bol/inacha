@@ -347,12 +347,12 @@ class ExecutionTaskController extends Controller
     );
     if (!isset($requestPoa["m" . $month]))
       $requestPoa["m" . $month] = 0;
-
+      
     $execmonth['m' . $month] = $requestPoa["m" . $month];
     $task->poas()->Where('state', true)->
     Where('month', false)->
     Update($execmonth);
-
+    
     $requestExecution["m" . $month] = $requestPoa["m" . $month];
     $requestExecution["month"] = $month;
     $requestExecution["state"] = '1';
@@ -388,11 +388,10 @@ class ExecutionTaskController extends Controller
     //    $execmonth['m' . $month] = operation_execution($task->operation_id, $month);
     if($requestPoa["m" . $month]>0){
       $execmonth['m' . $month] = execs($task->operation_id,'Operation' ,$month);
-      $operation = Operation::Where('id', $task->operation_id)->
+    }
+    $operation = Operation::Where('id', $task->operation_id)->
                               Where('status', true)->
                               First();
-    }
-    
     
       ////verificamos que la operacion no este eliminada o suspendida
     if(is_null($operation)){
@@ -407,17 +406,19 @@ class ExecutionTaskController extends Controller
       return redirect('execution/task')
         ->with('data', $this->data);
     }
-
-    $operation->
+    if($requestPoa["m" . $month]>0){
+      $operation->
       poas()->
       where('state',true)->
       Where('month',false)->
       Orderby('id','desc')->
       first()->
       Update($execmonth);
+    }
+    
       ////aqui ejecutamos en el nuevo 
       ///y e sel nuevo que tenemos que mostrara en la ejecucion del la operacion 
-
+      
     \Toastr::success("Tarea Ejecutada",
       $title = 'EJECUCIÓN',
       $options = [
