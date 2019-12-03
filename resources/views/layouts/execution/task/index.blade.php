@@ -84,8 +84,11 @@
                         @php
                             $month = 'm' . activemonth();                            
                           @endphp
+                        @if(!empty($item->poas()->where('month', activemonth())->first()->$month))
+                          <i class="fa fa-check-square text-success" title="Tarea Ejecutada"></i>
+                        @endif
                         @if(!empty($item->operation->poas()->where('month', activemonth())->first()->$month))
-                          <i class="fa fa-check-square text-success"></i>
+                          <i class="fa fa-check-square text-success" title="Operacion Ejecutada"></i>
                         @endif
                       </td>
                       <td class="align-top text-center">
@@ -106,16 +109,21 @@
                       </td>
                       <td class="align-top text-center">
                         {{ ucfirst($months[$item->definitions->pluck('finish')->first()]) }}
-                        
                       </td>
+                      @php
+                      $ed = true;
+                      if ( $totalexec >= $totalprog ) {
+                        $ed = false;
+                      }
+                      @endphp
                       @component('layouts.partials.control',[
                                   'id' => $item->id,
                                   'url1' => $data["url1"],
                                   'url2' => $data["url2"],
                                   'add' => false,
                                   'del' => false,
-                                  'editenable' => ($item->status)? true : false,
-                                  'reconfigureenable' => ($item->status)? true : false
+                                  'editenable' => ($item->status)? $ed : false,
+                                  'reconfigureenable' => ($item->status)? $ed : false
                                 ])
                       @endcomponent
                     </tr>
