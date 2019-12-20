@@ -5,11 +5,13 @@ namespace App;
 use Iatstuti\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Action extends Model
+class Action extends Model implements Auditable
 {
     //
 	use SoftDeletes, CascadeSoftDeletes;
+	use \OwenIt\Auditing\Auditable;
 
 	protected $table = "actions";
 

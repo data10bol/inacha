@@ -568,16 +568,17 @@ function activeyear()
 | activemonth()
 |
 |--------------------------------------------------------------------------
+|Se arreglo el bug con respecto a los meses
 *** */
 
 
 function activemonth()
 {
   $limit = App\Limit::Where('status', true)->first();
-  if(!is_null($limit)){ 
-    return (intval($limit->month)) % 12;
+  if(!is_null($limit)){
+    return (intval($limit->month));
   }else{
-    return (intval(date('m'))) % 12;
+    return (intval(date('m')));
   }
 /*
   $limit = App\Limit::Where('status', true)->first();
@@ -2576,4 +2577,28 @@ function percentage($id, $type, $m){
   
   
   return $resp;
+}
+/**
+ * Devuelve el nombre de un usuario referente al ID
+ */
+
+function getNameUser($user_id = 0){
+  if($user_id == 0)
+    return '';
+  $res = \App\User::find($user_id);
+  if($res == null)
+    return '';
+  return $res->name;
+}
+
+function stringParce($cadena = ''){
+  if($cadena == '')
+    return null;
+  $cad = substr($cadena,0,1);
+  $cad = strtoupper ($cad);
+  $has = "\App\ ";
+  $cad = $has.$cad;
+  $cad = str_replace(' ','',$cad);
+  $dena = substr($cadena,1);
+  return $cad.$dena;
 }

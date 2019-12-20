@@ -292,7 +292,8 @@
                       $data["active"] == 'user' ||
                       $data["active"] == 'role' ||
                       $data["active"] == 'permission' ||
-                      $data["active"] == 'limit')
+                      $data["active"] == 'limit'||
+                      $data["active"] == 'events')
           menu-open
   @endif">
           <a href="#" class="nav-link
@@ -302,7 +303,8 @@
                       $data["active"] == 'user' ||
                       $data["active"] == 'role' ||
                       $data["active"] == 'permission' ||
-                      $data["active"] == 'limit')
+                      $data["active"] == 'limit'||
+                      $data["active"] == 'events')
             active
   @endif">
             <i class="nav-icon fa fa-cogs"></i>
@@ -358,11 +360,18 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/logs" class="nav-link" target="_blank">
+              <a href="{{ route('events.index') }}" class="nav-link @if($data["active"] == 'events') active @endif">
                 <i class="fa fa-spinner nav-icon"></i>
-                <p>Eventos</p>
+                <p>Registros</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="/logs" class="nav-link" target="_blank">
+                <i class="fa fa-exclamation-triangle nav-icon"></i>
+                <p>Errores</p>
+              </a>
+            </li>
+            
           </ul>
         </li>
         @endrole

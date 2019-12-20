@@ -176,6 +176,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('administrator/limit', 'Administrator\\LimitController');
 
+    //EVENTS
+
+    Route::get('/administrator/events/{model?}', 'Administrator\EventsController@index')->name('events.index');
     // LOGS
     Route::group(['middleware' => ['role:Administrador']], function () {
       Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

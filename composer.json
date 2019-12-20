@@ -19,6 +19,7 @@
         "maatwebsite/excel": "^3.1",
         "muhamadrezaar/highcharts": "^2.0",
         "oriceon/toastr-5-laravel": "dev-master",
+        "owen-it/laravel-auditing": "^9.3",
         "phpoffice/phpword": "^0.16.0",
         "rap2hpoutre/laravel-log-viewer": "^1.0",
         "simplesoftwareio/simple-qrcode": "~2",
