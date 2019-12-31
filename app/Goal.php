@@ -21,6 +21,7 @@ class Goal extends Model implements Auditable
   protected $fillable = [
     'code',
     'doing_id',
+    'year',
     'configuration_id',
     'description',
   ];

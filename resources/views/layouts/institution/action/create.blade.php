@@ -7,7 +7,7 @@
           <div class="card card-secondary">
             <div class="card-header">
               <h3 class="card-title">
-                <b>CREAR ACCIÓN DE CORTO PLAZO}</b>
+                <b>CREAR ACCIÓN DE CORTO PLAZO</b>
               </h3>
             </div>
             <!-- /.card-header -->

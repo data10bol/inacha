@@ -26,7 +26,7 @@ class DashboardController extends Controller
   public function index()
   {
     if (!empty(Auth::user()->status)) {
-
+      
       $action = new Action;
       $operation = new Operation;
       $task = new Task;
@@ -42,6 +42,25 @@ class DashboardController extends Controller
         OrderBy('code', 'ASC')->
         get();
       }
+      
+      if(count ($actions) == 0){
+        $operations = null;
+        $tasks = null;
+        $chartaccuma = null;
+        $chartaccumm = null;
+        $chartaccumma = null;
+        $name="OFEP";
+        $month = ucfirst(\App\Month::Where('id', activemonth())->first()->name);
+        return view('layouts.dashboard')->
+        with('actions', $actions)->
+        with('operations', $operations)->
+        with('tasks', $tasks)->
+        with('chartaccuma', $chartaccuma)->
+        with('chartaccumm', $chartaccumm)->
+        with('chartaccumma', $chartaccumma)->
+        with('name', $name)->
+        with('month', $month);
+      }
 
       $actions_ordered = implode(',', $actions->pluck('id')->toarray());
 
@@ -50,6 +69,23 @@ class DashboardController extends Controller
       OrderBy('code', 'ASC')->
       get();
 
+      if(count ($operations) == 0){
+        $tasks = null;
+        $chartaccuma = null;
+        $chartaccumm = null;
+        $chartaccumma = null;
+        $name="OFEP";
+        $month = ucfirst(\App\Month::Where('id', activemonth())->first()->name);
+        return view('layouts.dashboard')->
+        with('actions', $actions)->
+        with('operations', $operations)->
+        with('tasks', $tasks)->
+        with('chartaccuma', $chartaccuma)->
+        with('chartaccumm', $chartaccumm)->
+        with('chartaccumma', $chartaccumma)->
+        with('name', $name)->
+        with('month', $month);
+      }
       $operations_ordered = implode(',', $operations->pluck('id')->toarray());
 
       // TASKS FAST FILLING

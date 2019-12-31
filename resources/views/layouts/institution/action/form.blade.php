@@ -208,11 +208,11 @@
                     ('' == 'required') ? [
                         'class' => 'form-control',
                         'rows' => '2',
-                        'maxlength' => '128',
+                        'maxlength' => '127',
                         'required' => 'required']:[
                         'class' => 'form-control',
                         'rows' => '2',
-                        'maxlength' => '128'])
+                        'maxlength' => '127'])
         !!}
       </div>
       <div class="col-sm-10">

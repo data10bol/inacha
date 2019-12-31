@@ -93,23 +93,25 @@ class ExecutionActionController extends Controller
       Orderby('actions.code', 'ASC')->
       pluck('actions.id')->
       toarray();
-
+        
     if (!empty($keyword)) {
-
       $ids = search_action($keyword);
 
       if (!empty($ids)) {
         $action = Action::WhereIn('id', $ids)
+          ->Where('year',activeyear())
           ->OrderBy('goal_id', 'ASC')
           ->OrderBy('code', 'ASC')
           ->paginate($perPage);
       } else {
         $action = Action::orderBy('goal_id', 'ASC')
+          ->Where('year',activeyear())
           ->OrderBy('code', 'ASC')
           ->paginate($perPage);
       }
     } else {
       $action = Action::orderBy('goal_id', 'ASC')
+      ->Where('year',activeyear())
         ->OrderBy('code', 'ASC')
         ->paginate($perPage);
     }

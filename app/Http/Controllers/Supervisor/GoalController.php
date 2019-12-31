@@ -46,14 +46,15 @@ class GoalController extends Controller
         return view('layouts.partials.banner');
     $keyword = $request->get('search');
     $type = $request->get('type');
-    if (isset($type) && $type == "pdf")
-      $perPage = 25000;
-    else
-      $perPage = 25;
+
+    $perPage = 25000;
 
     $header = ([
       [
         "text" => 'PERIODO',
+        "align" => 'center'
+      ], [
+        "text" => 'GESTIÓN',
         "align" => 'center'
       ], [
         "text" => 'CÓDIGO',
@@ -71,10 +72,12 @@ class GoalController extends Controller
       $goal = Goal::orderBy('doing_id', 'ASC')
         ->orderBy('code', 'ASC')
         ->Where('description', 'LIKE', "%$keyword%")
+        ->where('year',activeyear())
         ->paginate($perPage);
     } else {
       $goal = Goal::orderBy('doing_id', 'ASC')
         ->OrderBy('code', 'ASC')
+        ->where('year',activeyear())
         ->paginate($perPage);
     }
 

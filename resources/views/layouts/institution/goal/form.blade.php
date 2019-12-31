@@ -37,6 +37,31 @@
         </div>
       </td>
     </tr>
+    <tr>
+      <th class="align-top text-left" style="width: 120px">
+        {!! Form::label('year',
+                        'GESTIÓN',
+                        ['class' => 'col-form-label'])
+        !!}
+      </th>
+      <td >
+        <div class="col-sm-2">
+        @php
+            if(isset($goal)){
+              $deef = null;
+            }else{
+              $deef = activeyear();
+            }
+        @endphp
+        {!! Form::select('year',['2017'=>'2017','2018'=>'2018','2019'=>'2019','2020'=>'2020'], $deef,
+        [
+          'class' => 'form-control select2',
+          'data-style' => "btn btn-info btn-round",
+          'title' => "Seleccione..."
+          ])!!}
+        </div>
+      </td>
+    </tr>
     @if(isset($doing))
       <tr>
         <th class="align-top text-left">

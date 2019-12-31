@@ -62,8 +62,8 @@ function accum($id, $type, $state, $month,$rep = false)
       if(isset($actions)){
         foreach ($actions as $item)
           $total += accum($item->id,'Action',$state,$month);
-
-        $total /= sizeof($actions);
+        if(sizeof($actions) != 0)
+          $total /= sizeof($actions);
       }
     }
     elseif($type == 'TOTAL'){

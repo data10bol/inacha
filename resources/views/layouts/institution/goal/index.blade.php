@@ -33,6 +33,9 @@
                     <td class="align-top text-center" style="width: 100px">
                       {{ $item->configuration->period->start }} - {{ $item->configuration->period->finish }}
                     </td>
+                    <td class="align-top text-center" style="width: 100px">
+                      {{ $item->year}}
+                    </td>
                     <td class="align-top text-left" style="width: 100px">
                       {{ $item->doing->result->target->policy->code
                       }}.{{ $item->doing->result->target->code
