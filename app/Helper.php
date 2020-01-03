@@ -109,12 +109,12 @@ function accum($id, $type, $state, $month,$rep = false)
 
     $total = 0;
     $type = strtoupper($type);
-  
+
     if($state)
       $state = true;
     else
       $state = false;
-  
+
     switch ($type){
       case ('TASK'):
         $type = 'App\Task';
@@ -126,7 +126,7 @@ function accum($id, $type, $state, $month,$rep = false)
         $type = 'App\Action';
         break;
     }
-  
+
     if($type == 'DEPARTMENT'){
       $action = new \App\Action;
       $actions = $action->
@@ -167,7 +167,7 @@ function accum($id, $type, $state, $month,$rep = false)
           $total += $item['m' . $i];
       }
     }
-  
+
     return number_format((float)$total, 2, '.', '');
   }
 }
@@ -193,10 +193,10 @@ function accum($id, $type, $state, $month,$rep = false)
 | $month = Número de mes. Ej 1 - Enero
 |--------------------------------------------------------------------------
 *** */
-///id = 4 
+///id = 4
 function execs($id, $type, $month)
 {
-  
+
   $total = 0;
   $type = strtoupper($type);
 
@@ -216,16 +216,16 @@ function execs($id, $type, $month)
 
       ////como sabemos que es del tipo operación ejecutamos una operación
       /**
-       * para que funcione necesitamos la sumatoria de la programacion 
-       * sumatoria de lo acumulado planificado en tareas 
+       * para que funcione necesitamos la sumatoria de la programacion
+       * sumatoria de lo acumulado planificado en tareas
        */
       $m = $month;///alamcenamos el mes nuerico q operar en una variable m
       $month = 'm' . $month; ///creamos el apuntador del mes en el ejemplo sera 'm1'
-      $accump = [];////inicialisamo sel acumulado planificado de la operacion 
+      $accump = [];////inicialisamo sel acumulado planificado de la operacion
       $accume = [];///el acumulado ejecutado
       $accumt = [];///el acumulado total
 
-      $item = App\Poa::Where('poa_id', $id)->///saca la ejecucion de la operacion 
+      $item = App\Poa::Where('poa_id', $id)->///saca la ejecucion de la operacion
               Where('poa_type', 'App\Operation')->
               Where('month', false)->
               Where('state', true)->
@@ -233,14 +233,14 @@ function execs($id, $type, $month)
               first();
               ///el ejecutado reprogramado *****
 
-      ////aqui sacamos los items poas de las operaciones 
+      ////aqui sacamos los items poas de las operaciones
       ///tenemos que preguntar si en la operacion estamos apuntado a lo replanificado o no
 
       if (isset($item)) {
         $operation = \App\Operation::find($id);
         $current = $operation->action()->pluck('current')->first();
         $repr = null;
-        
+
         $prog = App\Poa::Where('poa_id', $id)->
                 Where('poa_type', 'App\Operation')->
                 Where('month', false)->
@@ -259,14 +259,16 @@ function execs($id, $type, $month)
           if($current < 1)
             break 1;
         }
-        ///ahora preguntamos si tenemos alguna reprogramacion que asignar 
+        ///ahora preguntamos si tenemos alguna reprogramacion que asignar
         /// generamos reprog current
-        
+
         $progC = null;
 
-        $beeg = date('Y').'-01-01';
-        $lass = date('Y').'-12-31';
-        $progC = \App\Poa::Where('poa_id',$id)-> 
+        //$beeg = date('Y').'-01-01';
+        //$lass = date('Y').'-12-31';
+        $beeg = activeyear().'-01-01';
+        $lass = activeyear().'-12-31';
+        $progC = \App\Poa::Where('poa_id',$id)->
                           Where('poa_type','App\Operation')->
                           Where('month',false)->
                           Where('state',false)->
@@ -274,10 +276,10 @@ function execs($id, $type, $month)
                           Where('in','<=',$m)->
                           Where('out','>=',$m)->
                           first()->
-                          toarray();   
-        
+                          toarray();
+
         /**
-        * NOTA DE EJECUCION-... SI LA TAREA YA HA SIDO EJECUTADA CON DEFICICENCIA EN ALGUN MES SE TIENE Q COMPENSAR ESA FALTA DE CUMPLIMEINTO 
+        * NOTA DE EJECUCION-... SI LA TAREA YA HA SIDO EJECUTADA CON DEFICICENCIA EN ALGUN MES SE TIENE Q COMPENSAR ESA FALTA DE CUMPLIMEINTO
         * EL ALGORITMO DE LA REMPROGAMCION CUENTA QUE EN TUS TREAS LLEGUES AL 100 POR CIEN SIN IMPORTAR EL ECENARIO PARA COMPROBAR LA GESTION PRO RESULTADOS
         */
         $ids = App\Task::Select('id')->
@@ -316,7 +318,7 @@ function execs($id, $type, $month)
           $accume[$i] += $accume[$j];
           $accumt[$i] += $accumt[$j];
         }
-      
+
         //dd($accump);
         //return false;
         echo 'acum p = '.$accump[$m].' | acum e = '.$accume[$m].' | acum t = '.$accumt[$m]."\n";
@@ -337,7 +339,7 @@ function execs($id, $type, $month)
 
           echo 'aux: '.$aux."\n";
           $total -= $aux;
-          
+
         }
       }
       //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -366,7 +368,7 @@ function execs($id, $type, $month)
                 pluck($month)->
                 first();
         $poas[$h] = $poa;
-      }      
+      }
   ////aqui es donde tengo q modificar la ejecucion de la accion logrado
       $ponderations = array();
       for($h = 0;$h<count ($ids); $h++){
@@ -378,7 +380,7 @@ function execs($id, $type, $month)
                       first();
         $ponderations[$h] = $ponderation;
       }
-    
+
       for ($i = 0; $i < sizeof($poas); $i++)
         $total += $poas[$i] * $ponderations[$i] / 100;
       break;
@@ -429,18 +431,18 @@ function execs($id, $type, $month)
 }
 
 /**
- * Refrescar Poa 
+ * Refrescar Poa
  * =========================================================================================
  * Para realizar el guardado de variables nuevas dentro de la ejecucion del poa
- * 
- * 
+ *
+ *
  */
 
 function refresh_last_poa_op($id){
   ///primero obtenemos el ultimo poa creado con ejecucion
-  ///y el ultimo poa creado con ejecucion 
+  ///y el ultimo poa creado con ejecucion
   $mon = activeReprogMonth();
-  $accump = [];////inicialisamo sel acumulado planificado de la operacion 
+  $accump = [];////inicialisamo sel acumulado planificado de la operacion
   $accume = [];///el acumulado ejecutado
   $accumt = [];///el acumulado total
   $accumx = [];///el acumulado no prosesado auxiliar
@@ -509,7 +511,7 @@ function refresh_last_poa_op($id){
       }else{
         $accumx[$i] = 0;
       }
-      
+
       echo '$i = '.$i.' accume = '.$accume[$i].' accump ='.$accump[$i].' accumt = '.$accumt[$i]."\n";
       if($i>1){
         ///agregamos la resta
@@ -906,7 +908,7 @@ function graphline($name, $value1, $value2, $width, $height){
       ]
     )
     ->display();
-    
+
   return $chart;
 }
 
@@ -1069,7 +1071,7 @@ function chartaccum($id, $type, $graph, $m, $name)
       for ($i=0; $i < count($refo); $i++) {
         if($m >= $refo[$i]){
           $ban = false;
-        }  
+        }
       }
       for ($i = 1; $i <= 12; $i++) {
         $datap[$i] = number_format((float)accum($id, $type, false, $i,$ban), 2, '.', '');
@@ -1079,9 +1081,9 @@ function chartaccum($id, $type, $graph, $m, $name)
         else
           $datae[$i] = number_format((float)accum($id, $type, true, $i,$ban), 2, '.', '');
       }
-      
+
       $data = implode(',', $datap);
-      
+
       $data = explode(',', $data);
 
       foreach ($data as $d)
@@ -1094,7 +1096,7 @@ function chartaccum($id, $type, $graph, $m, $name)
         $value2[] = (float)$d;
 
          if(!$ban){
-           for ($i=1; $i < activeReprogMonth()-1; $i++) { 
+           for ($i=1; $i < activeReprogMonth()-1; $i++) {
              $value1[$i] = $value2 [$i];
            }
          }
@@ -1108,11 +1110,11 @@ function chartaccum($id, $type, $graph, $m, $name)
       if($m > 1){
         if(activeReprogMonth()==$m){
           $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m -1), 2, '.', '');
-          
+
           $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m-1), 2, '.', '') ;
-        }else{        
+        }else{
           $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '') - number_format((float)accum($id, $type, false, $m -1), 2, '.', '');
-          
+
           $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m-1), 2, '.', '') ;
         }
       }
@@ -1656,14 +1658,14 @@ function action_programmed($id, $m)
 
 /** FUNCION para reformular los reprogramados en la accion por cada mes
  * ----------------------------------------------------------------
- * SINTAXIS 
+ * SINTAXIS
  * action_reprogrammed($id, $m);
- * 
+ *
  * @param Numero $id Recibe un numero el cual es el ID de la operación
- * @param Numero $m Recibe un numero el cual reprecenta el mes en el cual se esta calculando la reprogramcion 
- * @return Numero Retorna el numero que se calculo en la funcion correspondiente a el mes de esa accion con la de la operacion 
+ * @param Numero $m Recibe un numero el cual reprecenta el mes en el cual se esta calculando la reprogramcion
+ * @return Numero Retorna el numero que se calculo en la funcion correspondiente a el mes de esa accion con la de la operacion
  * _______________________________________________________________________
- * 
+ *
  */
 
 //cant_op_curr($action);
@@ -1689,23 +1691,23 @@ function action_reprogrammed($id, $m)
     $states[$j] = $operation->poas()->where('state',false)->orderby('id','desc')->pluck('value')->first();
   }
 
-  /// ya tenenmos los poas que estan reprogramamdos 
+  /// ya tenenmos los poas que estan reprogramamdos
   /// y los current que corresponden
-  /// lo q son 0 se quedan con un estado de no reprogramacion los q son mayores a cero son 
+  /// lo q son 0 se quedan con un estado de no reprogramacion los q son mayores a cero son
   /// reprogramados .
-  /// al ser reprogramados el valor alamcenado en el array define que es el current 
+  /// al ser reprogramados el valor alamcenado en el array define que es el current
   /// planification ejempl.
   /// (0,0,2,0,1,0)
-  //  un ejemplo de la salida de este array nos informa de que hay 2 operaciones 
+  //  un ejemplo de la salida de este array nos informa de que hay 2 operaciones
   /// reprogramadas la tercera y la 5ta.
-  /// todo esto con respecto al array de las operaciones principales 
+  /// todo esto con respecto al array de las operaciones principales
 
   $poas = array();
   /// ahora armamos el poas del mes selecionado
-  /// como 
+  /// como
   /// realizamos el for para el poas y generamos el array correspondiente
   for($h = 0 ; $h< sizeof($ids); $h++){
-    /// la consulta seria la siguiente 
+    /// la consulta seria la siguiente
     /// select * from poas where poa_id=4 and poa_type like '%operation%' and state = false and value =1;
     $poam = App\Poa::Select($month)->
             Where([['month', false],['state', false],['value', $states[$h]]])->
@@ -1717,7 +1719,7 @@ function action_reprogrammed($id, $m)
 
 /* ///formula anterior
   $poas = App\Poa::Select($month)->
-  ///luego preguntamos q 
+  ///luego preguntamos q
   ///*sea el mes cero de planificacion
   ///*que el estado sea cero que es el de planificaicon
   ///* que value sea falso por q es la programacion original
@@ -1732,7 +1734,7 @@ function action_reprogrammed($id, $m)
   orderBy('poa_id')->
   ///y selecionamos el dato regisrado e ese mes
   pluck($month);
-  
+
 */
 
   $ponderations = array();
@@ -1741,7 +1743,7 @@ function action_reprogrammed($id, $m)
                     Where('out', 12)->
   ///aun hay q ver por q hacemos la coparacin con el out,, ya q tenemos q igualar con la conderacion correspondiente
                     Where('definition_type', 'App\Operation')->
-                    Where('definition_id', $ids[$h])->                    
+                    Where('definition_id', $ids[$h])->
                     first()->ponderation;
     $ponderations[$h] = $ponderation;
   }
@@ -1768,8 +1770,8 @@ function action_reprogrammed($id, $m)
 */
 
   ///primero calculamos el mes activo menos uno para la formula
-  
-  ///en el for desde cero hasta la cantidad de poas generados 
+
+  ///en el for desde cero hasta la cantidad de poas generados
   ///calculamos el mensual de cada poa
 
   for ($i = 0; $i < sizeof($states); $i++){
@@ -1787,21 +1789,21 @@ function action_reprogrammed($id, $m)
 }
 
 
-/** 
- * Verifica si un elemento poa esta reprogramado 
+/**
+ * Verifica si un elemento poa esta reprogramado
  * --------------------------------------------------------------------------
  * FUNCTION cheking_poa_rep($poa_id, $type);
- * 
+ *
  * @param Numero $poa_id Recibe el ID del tipo numero para el poa_id de la tabla 'poas'
- * 
+ *
  * @param Cadena $type Es el tipo de elemento que se va a prosesar puede ser ('action', 'operation', 'task')
- * 
- * @return Boleano Devuelve verdadero si esta con almenos una reprogramacion y devuelve false si no esta con reprogramacion 
- * para esta uncion la modificaremos para q indique que existe una reformulacion 
+ *
+ * @return Boleano Devuelve verdadero si esta con almenos una reprogramacion y devuelve false si no esta con reprogramacion
+ * para esta uncion la modificaremos para q indique que existe una reformulacion
  * --------------------------------------------------------------------------
- * 
+ *
  * verifica si la operacion accion o tarea esta con reproramacion en base al mes activo de reprogramacion en el caso de la accion y al mes activo en el caso de operacion
- * 
+ *
  * --------------------------------------------------------------------------
  */
 
@@ -1838,11 +1840,11 @@ function cheking_poa_rep($poa_id, $type,$month = 1){
 }
 
 
-/** Pregunta si una operacion o tarea esta activa o no 
+/** Pregunta si una operacion o tarea esta activa o no
  * ---------------------------------------------------------------------
  * SINTAXIS
  * @param Numero $id es el identificador de la operacion o tarea
- * 
+ *
  * @
  */
 function cheking_poa_active($id, $type){
@@ -1870,9 +1872,9 @@ function cheking_poa_active($id, $type){
 }
 
 
-/** Deuleve la cantida de reprogamacione de un poa programado 
+/** Deuleve la cantida de reprogamacione de un poa programado
  * ------------------------------------
- * 
+ *
  */
 
 function quantity_poa_rep($poa_id, $type){
@@ -1890,7 +1892,7 @@ function quantity_poa_rep($poa_id, $type){
       $type = 'App\Action';
       $mc = activeReprogMonth();
       break;
-  }  
+  }
   $poa =  \App\Poa::select('*')->
           Where('state', false)->
           Where('poa_type', $type)->
@@ -1900,13 +1902,13 @@ function quantity_poa_rep($poa_id, $type){
 }
 
 
-/** 
+/**
  * -----------------------------------------------------------------
- * FUNCION para Ejecutar una Accion 
+ * FUNCION para Ejecutar una Accion
  * -----------------------------------------------------------------
- * SINTAXIS 
- * @param numero $id Es el ID de la operacion en la cual se desa trabajar 
- * @param numero $m Es le mes de ejeccion que se desa calcular 
+ * SINTAXIS
+ * @param numero $id Es el ID de la operacion en la cual se desa trabajar
+ * @param numero $m Es le mes de ejeccion que se desa calcular
  * @return numero retorna un numero correspondiente al calculo de la ejecucion de la accion en ese mes
  * ______________________________________________________________________
  */
@@ -1945,7 +1947,7 @@ function action_execution($id, $m)
 
 
 /**
- * 
+ *
  */
 
 function progexec($ids, $m)
@@ -2183,23 +2185,23 @@ function activeReprogYear(){
   return $ref->year;
 }
 
-/** Devuelve la sumatoria de las ponderaciones de una accion que estan validas hasta fin de año 
+/** Devuelve la sumatoria de las ponderaciones de una accion que estan validas hasta fin de año
  * ----------------------------------------------------------
  * Sintaxis
  * @param Numero $id el ID de la accion la cual queremos saber la sumatoria de la ponderación
- * @return Decimal devolvemos la  sumatoria de la ponderacion de la accion 
+ * @return Decimal devolvemos la  sumatoria de la ponderacion de la accion
  */
 function current_ponderation($id){
-  $total = 0;  
+  $total = 0;
   $ids = App\Operation::Where('action_id', $id)->
   orderBy('id')->
   pluck('id')->
-  ToArray(); 
+  ToArray();
   for($h = 0 ; $h< sizeof($ids); $h++){
     $ponderation =  App\Definition::Select('ponderation')->
                     Where('out', 12)->///aun hay q ver por q hacemos la coparacin con el out,, ya q tenemos q igualar con la conderacion correspondiente
                     Where('definition_type', 'App\Operation')->
-                    Where('definition_id', $ids[$h])->                    
+                    Where('definition_id', $ids[$h])->
                     first()->ponderation;
     $total += $ponderation;
     //echo $ponderation."--- \n";
@@ -2212,13 +2214,13 @@ function activeReprogId(){
   if(is_null($ref))
     return 0;
   if($ref->status==0){
-    return ($ref->Id)-1;    
+    return ($ref->Id)-1;
   }else{
     return $ref->Id;
   }
 }
 
-/** 
+/**
  * Cantidad de operaciones activas
  * =============================================================================================
  */
@@ -2316,7 +2318,7 @@ function get_definition($id, $type, $field){
         ///agregamos el in y el out a la siguiente linea
         $arre[$pt]['in']=$cadenas[$i+1]['in'];
         $arre[$pt][$field]= $cadenas[$i+1][$field];
-        //$i++; 
+        //$i++;
       }
     }
     ///se sale si es q ya no hay eleemntos al frente
@@ -2332,15 +2334,15 @@ function get_definition($id, $type, $field){
  * @param Numero $cInd (1) Codigo del Indicador del Formato BCB
  * @param Numero $cMon (2) Codigo de la moneda, formato BCB
  * @param cadena $fech (10) Fecha de Consulta formato 'dd/mm/aaaa'
- * 
- * @return numero Retorna el valor de la Peticion 
+ *
+ * @return numero Retorna el valor de la Peticion
  * ======================================================================================
  */
 
 function obtenerIndicador($cind, $cmon, $date){
   $url = 'http://ws01.bcb.gob.bo:8080/ServiciosBCB/indicadores?wsdl';
   $params = array('encoding' => 'UTF-8','verifypeer'=>false);
-  $client = new SoapClient($url,$params);  
+  $client = new SoapClient($url,$params);
   $dato = $client->obtenerIndicador(['codIndicador'=>$cind,'codMoneda'=>$cmon,'fecha'=>$date]);
   if($dato->return[0]->dato == 0){
     switch ($cind) {
@@ -2365,13 +2367,13 @@ function obtenerIndicador($cind, $cmon, $date){
 /**
  * Verifica cuantas operaciones ejecutadas tiene una accion al mes y devielve un color y el codigo de un icono
  * ______________________________________________________________________
- * @param numero $id que define cual es el id de la accion 
+ * @param numero $id que define cual es el id de la accion
  * @param numero $type tipo de elemento accion u operacion
  * @param numero $month indica el mes en el cual esta siendo consultado
- * 
+ *
  */
 /**
- * 
+ *
  */
 
 function quantity_exe($id,$type,$month){
@@ -2379,7 +2381,7 @@ function quantity_exe($id,$type,$month){
   $arre[4]= "";
   $m = 'm'.$month;
   $type = strtoupper($type);
-  switch ($type){    
+  switch ($type){
       case ('OPERATION'):
         $operation = \App\Operation::find($id);
         $tasks = $operation->tasks()->where('status',true)->get();
@@ -2419,7 +2421,7 @@ function quantity_exe($id,$type,$month){
         break;
       case ('ACTION'):
         $action = \App\Action::find($id);
-        $operations = $action->operations()->get(); 
+        $operations = $action->operations()->get();
         $con = 0;
         $tot = 0;
         foreach ($operations as $operation ) {
@@ -2433,7 +2435,7 @@ function quantity_exe($id,$type,$month){
               ){
                 $arre[4] .= $operation->action->goal->code.'.'.$operation->action->code.'.'.$operation->code."<br>";
               }
-            
+
           }
           if(($operation->poas()->where('state',false)->where('in','<=', activemonth())->where('out','>=',activemonth())->pluck('m'.activemonth())->first()>0)){
             $tot++;
@@ -2467,7 +2469,7 @@ function quantity_exe($id,$type,$month){
         $arre[3]=false;
         return $arre;
         break;
-    
+
   }
 }
 
@@ -2483,7 +2485,7 @@ function execsBudget($id, $type){
       $res = $structure->transactions()->where('certification',false)->get()->sum('outflow')-$structure->transactions()->where('certification',false)->get()->sum('inflow');
       return $res;
       break;
-    
+
     default:
       return 0;
       break;
@@ -2510,7 +2512,7 @@ function check_parent_transaction($transaction){
  * genera el porcentage de ejecucion de una operacion o accion o tarea en caso de que averiguemos como lo hace
  * @param id numero es el Id del elemento a resolver
  * @param type cadena es el tipo de elemento que deseamos procesar 'operation' , 'task', 'action' 'departament'
- * 
+ *
  */
 
 function percentage($id, $type, $m){
@@ -2519,7 +2521,7 @@ function percentage($id, $type, $m){
   $type = strtoupper($type);
   switch ($type){
     case ('TASK'):
-      ///ver su 
+      ///ver su
       $type = 'App\Task';
       $mc = activemonth();
       break;
@@ -2544,7 +2546,7 @@ function percentage($id, $type, $m){
               first();
       //echo '-'.$poa."-\n" ;
       $poasp[$h] = $poa;
-    } 
+    }
     $poase = array();
     for($h = 0;$h<count ($ids); $h++){
       $poa =  App\Poa::select($month)->
@@ -2574,8 +2576,8 @@ function percentage($id, $type, $m){
       break;
   }
 
-  
-  
+
+
   return $resp;
 }
 /**
