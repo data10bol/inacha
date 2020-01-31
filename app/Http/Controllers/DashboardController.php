@@ -91,18 +91,19 @@ class DashboardController extends Controller
       // TASKS FAST FILLING
 
       if (Auth::user()->hasRole('Usuario')) {
+        
         $user_id = Auth::user()->id;
 
-        $tasks = $task->Wherein('operation_id', $operations->pluck('id')->toArray())->
-        orderByRaw(DB::raw("FIELD(operation_id, $operations_ordered)"))->
-        WhereHas('users', function ($q)
-        use ($user_id) {
-          $q->where('user_id', $user_id);
-        })->
-        orderBy('code', 'ASC')->
-        get();
+        $tasks = $task->//Wherein('operation_id', $operations->pluck('id')->toArray())->
+                        orderByRaw(DB::raw("FIELD(operation_id, $operations_ordered)"))->
+                        WhereHas('users', 
+                        function ($q)use ($user_id) {
+                          $q->where('user_id', $user_id);
+                        })->
+                        orderBy('code', 'ASC')->
+                        get();
       } else {
-        $tasks = $task->Wherein('operation_id', $operations->pluck('id')->toArray())->
+        $tasks = $task->//Wherein('operation_id', $operations->pluck('id')->toArray())->
         orderByRaw(DB::raw("FIELD(operation_id, $operations_ordered)"))->
         orderBy('code', 'ASC')->
         get();

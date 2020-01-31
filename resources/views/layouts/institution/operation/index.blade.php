@@ -12,6 +12,7 @@
           'addtop' => false,
           'pdf' => true,
           'urlpdf' => ''.Request::url().'?search='.Request::get('search').'&type=pdf',
+          'search' =>false
       ])
       @endcomponent
       <!-- /.card-header -->
@@ -24,7 +25,7 @@
             <div class="card-body">
               <table class="table table-hover dataTable"
                     role="grid"
-                    aria-describedby="main table">
+                    aria-describedby="main table" id="operation1">
                 @component('layouts.partials.theader',[
                     'arg'=>$header
                     ])
@@ -53,9 +54,6 @@
                           {{ $item->action->department->name }}
                         @endif
                       </td>
-                      @php
-                        $pon = $item->definitions->pluck('ponderation')->last();
-                      @endphp
                       <td class="align-top text-justify">
                         @if($item->action->goal->doing->code.'.'.
                             $item->action->goal->code.'.'.
@@ -64,6 +62,9 @@
                           {!! strlen($item->action->definitions->first()->description) > 200 ? '...' : '' !!}
                         @endif
                       </td>
+                      @php
+                        $pon = $item->definitions->pluck('ponderation')->last();
+                      @endphp
                       <td class="align-top text-justify">
                           @if ($pon == 0)
                           <span class="badge badge-danger"><small><i class="fa fa-warning"></i></small></span> 
@@ -73,6 +74,10 @@
                       </td>
                       <td class="align-top text-center">
                         {{ $pon }}%
+                      </td>
+                      <td class="align-top text-center">
+                        {!!($item->definitions->last()->department)?$item->definitions->last()->department->initial:null!!}
+                        [{!!$item->definitions->last()->dep_ponderation!!}%]
                       </td>
                       <td class="align-top text-center">
                         {{ ucfirst($months[$item->definitions->pluck('start')->first()]) }}
@@ -159,4 +164,13 @@
     </div>
     <!-- /.container-fluid -->
   </section>
+@endsection
+@section('scripts')
+<script>
+  $(document).ready(function() {
+    $('#operation1').DataTable({
+      "columnDefs": [ { "orderable": false, "targets": [11] } ]
+    });
+  });
+  </script>
 @endsection

@@ -68,6 +68,7 @@ allloadin
 AllSubmitter
 alyze\.info
 amagit
+^Amazon Simple Notification Service Agent$
 Anarchie
 AndroidDownloadManager
 Anemone
@@ -106,6 +107,7 @@ autocite
 AutomaticWPTester
 Autonomy
 axios\/
+AWS Security Scanner
 B-l-i-t-z-B-O-T
 Backlink-Ceck
 backlink-check
@@ -211,6 +213,7 @@ CookieReports
 copyright sheriff
 CopyRightCheck
 Copyscape
+cortex\/
 Cosmos4j\.feedback
 Covario-IDS
 Craw\/
@@ -267,6 +270,7 @@ drupact
 Drupal \(\+http:\/\/drupal\.org\/\)
 DTS Agent
 dubaiindex
+DuplexWeb-Google
 EARTHCOM
 Easy-Thumb
 EasyDL
@@ -303,6 +307,7 @@ Extreme Picture Finder
 EyeNetIE
 ezooms
 facebookexternalhit
+facebookexternalua
 facebookplatform
 fairshare
 Faraday v
@@ -392,6 +397,7 @@ Google-Calendar-Importer
 Google-HotelAdsVerifier
 Google-HTTP-Java-Client
 Google-Publisher-Plugin
+Google-Read-Aloud
 Google-SearchByImage
 Google-Site-Verification
 Google-Structured-Data-Testing-Tool
@@ -431,6 +437,7 @@ Hadi Agent
 HappyApps-WebCheck
 Hatena
 Havij
+HaxerMen
 HeadlessChrome
 HEADMasterSEO
 HeartRails_Capture
@@ -562,6 +569,7 @@ Kml-Google
 knows\.is
 KOCMOHABT
 kouio
+kubectl
 kube-probe
 kulturarw3
 KumKie
@@ -700,6 +708,7 @@ NewsBlur .*Finder
 NewsGator
 newsme
 newspaper\/
+NetSystemsResearch
 Nexgate Ruby Client
 NG-Search
 Nibbler
@@ -742,6 +751,7 @@ Openfind
 OpenLinkProfiler
 Openstat\/
 OpenVAS
+OPPO A33
 Optimizer
 Orbiter
 OrgProbe\/

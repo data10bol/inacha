@@ -11,6 +11,7 @@
           'editenable' => true,
           'pdf' => true,
           'urlpdf' => ''.Request::url().'?search='.Request::get('search').'&type=pdf',
+          'search' => false
       ])
       @endcomponent
      

@@ -138,7 +138,7 @@ class GoalController extends Controller
 
     $requestData = $request->all();
 
-    $code = (int)Goal::OrderBy('code', 'DESC')->pluck('code')->first() + 1;
+    $code = (int)Goal::Where('year',activeyear())->OrderBy('code', 'DESC')->pluck('code')->first() + 1;
 
     $requestData['code'] = $code;
 
@@ -154,9 +154,7 @@ class GoalController extends Controller
       ]
     );
     logrec('html', \Route::currentRouteName());
-    return redirect('institution/goal')
-      ->with('data', $this->data);
-
+    return redirect('institution/goal')->with('data', $this->data);
   }
 
   /**

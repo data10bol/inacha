@@ -96,7 +96,7 @@
                     </tr>
                     <tr>
                       <th class="align-top text-left">
-                        DEPARTAMENTO
+                        DEPARTAMENTO A.C.P.
                       </th>
                       <td class="align-top text-justify">
                         <div class="col-sm-12">
@@ -230,6 +230,26 @@
                           
                           {{ $pon }} % 
                           
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th class="align-top text-left">
+                        DEPARTAMENTO OPERATIVO
+                      </th>
+                      <td class="align-top text-justify">
+                        <div class="col-sm-12">
+                          {!! (isset($operation->definitions->last()->department))? $operation->definitions->last()->department->name : null!!}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th class="align-top text-left">
+                        PONDERACIÓN DE DEPARTAMENTO
+                      </th>
+                      <td class="align-top text-justify">
+                        <div class="col-sm-12">
+                          {!! $operation->definitions->last()->dep_ponderation !!} %
                         </div>
                       </td>
                     </tr>

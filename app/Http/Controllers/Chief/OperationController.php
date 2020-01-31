@@ -68,6 +68,9 @@ class OperationController extends Controller
         "text" => 'P(%)',
         "align" => 'center'
       ], [
+        "text" => 'DEPARTAMENTO RESPONSABLE',
+        "align" => 'center'
+      ], [
         "text" => 'INICIO',
         "align" => 'center'
       ], [
@@ -161,25 +164,15 @@ class OperationController extends Controller
       $action = Action::Select('id', 'code', 'department_id')
         ->Where('id', $request->get('id'))
         ->first();
-//            $code = (int)Operation::Where('action_id',$action->id)->max('code')+1;
-
-      return view('layouts.institution.operation.create')
-        ->with('action', $action)
-//                ->with('code',$code)
+    //  $code = (int)Operation::Where('action_id',$action->id)->max('code')+1;
+        $unitys = \App\Department::all()->pluck('name','id')->toArray();
+      return view('layouts.institution.operation.create',compact('action','unitys'))
+    // ->with('code',$code)
         ->with('data', $this->data);
     } else
       return view('layouts.institution.operation.create')
         ->with('data', $this->data);
   }
-
-
-
-
-
-
-
-
-
 
   /**
    * Store a newly created resource in storage.
@@ -192,10 +185,27 @@ class OperationController extends Controller
 
   public function store(OperationRequest $request)
   {
+    
     $requestData = $request->all();
-
+    $va =  \App\Definition::where('definition_type','App\Operation')->
+                                where('department_id',$request->department_id)->
+                                pluck('dep_ponderation')->
+                                sum();
+    $va += $request->dep_ponderation;
+    
+    if($va > 100){
+      \Toastr::error("La ponderación de departamento supera el 100% en todas las operaciones",
+        $title = 'ERROR',
+        $options = [
+          'closeButton' => 'true',
+          'hideMethod' => 'slideUp',
+          'closeEasing' => 'easeInBack',
+        ]);
+        return back()
+        ->withInput($requestData)
+        ->with('data', $this->data);
+    }
     $ponderation = 0;
-
     $operations = Operation::Where('action_id', $requestData["action_id"])
       ->get();
     foreach ($operations as $operation)
@@ -228,6 +238,8 @@ class OperationController extends Controller
 
     $requestDefinition = $request->only(
       'description',
+      'department_id',
+      'dep_ponderation',
       'measure',
       'ponderation',
       'base',
@@ -235,8 +247,6 @@ class OperationController extends Controller
       'describe',
       'pointer',
       'validation'
-  //                        'start',
-  //                        'finish'
     );
     $requestPoa = $request->only(
       'm1',
@@ -297,8 +307,9 @@ class OperationController extends Controller
     }else{///aqui creamos desde cero
       $operation->definitions()->create($requestDefinition);
       $operation->poas()->create($requestPoa);
-      $operation->poas()->create(['state' => '1'],['out' => activeReprogMonth()-1 ]);///y creamos una ejecucion con ceros
-      $operation->poas()->create(['state' => '1'],['in' => activeReprogMonth()],['value' => activeReprogMonth()]);
+      $operation->poas()->create(['state' => '1']);
+      //$operation->poas()->create(['state' => '1'],['out' => activeReprogMonth()-1 ]);///y creamos una ejecucion con ceros
+      //$operation->poas()->create(['state' => '1'],['in' => activeReprogMonth()],['value' => activeReprogMonth()]);
     }
 
     \Toastr::success(
@@ -388,9 +399,13 @@ class OperationController extends Controller
   {
     if(!permissions_check('edit',$this->data["active"]))
       return redirect($this->data["url1"]);
-    
     $id = Hashids::decode($id)[0];
-    if(accum($id,'operation',false,activeReprogMonth()-1)>99){ ////preguntamos si la operacion fue completada 
+    if(reprogcheck()){
+      $mountA = activeReprogMonth();
+    }else{
+      $mountA = activeMonth();
+    }
+    if(accum($id,'operation',false,$mountA-1)>99){ ////preguntamos si la operacion fue completada 
       \Toastr::error("La Operación ya fue concluida",
         $title = 'ERROR',
         $options = [
@@ -422,8 +437,9 @@ class OperationController extends Controller
     }
     $operation = Operation::findOrFail($id);
     logrec('html', \Route::currentRouteName());
+    $unitys = \App\Department::all()->pluck('name','id')->toArray();
     return view('layouts.institution.operation.edit',
-      compact('operation'))
+      compact('operation','unitys'))
       ->with('data', $this->data);
   }
 
@@ -440,7 +456,35 @@ class OperationController extends Controller
     
     //deshasheamos el ID 
     $requestData = $request->all();
+    
     $id = Hashids::decode($id)[0];
+    
+    $va =  \App\Definition::where('definition_type','App\Operation')->
+    where('department_id',$request->department_id)->
+    pluck('dep_ponderation')->
+    sum();
+    $act = \App\Definition::where('definition_type','App\Operation')->
+    where('department_id',$request->department_id)->
+    where('definition_id',$id)->
+    pluck('dep_ponderation');
+    if(count($act)>0){
+      $va -= $act[0];
+    }
+    
+    $va += $request->dep_ponderation;
+
+    if($va > 100){
+    \Toastr::error("La ponderación de departamento supera el 100% en todas las operaciones",
+    $title = 'ERROR',
+    $options = [
+    'closeButton' => 'true',
+    'hideMethod' => 'slideUp',
+    'closeEasing' => 'easeInBack',
+    ]);
+    return back()
+    ->withInput($requestData)
+    ->with('data', $this->data);
+    }
     $ponderation = 0;///inicializamos
     $operations = Operation::Where('action_id', $requestData["action_id"])->
                   Where('id', '!=', $id)->
@@ -449,7 +493,6 @@ class OperationController extends Controller
     /**
      * Se toma el ultimo registro de las ponderaciones
      */
-
     foreach ($operations as $operation)
       $ponderation += $operation->definitions->pluck('ponderation')->last();
 
@@ -474,6 +517,8 @@ class OperationController extends Controller
     );
     $requestDefinition = $request->only(
       'description',
+      'department_id',
+      'dep_ponderation',
       'measure',
       'ponderation',
       'base',
@@ -575,7 +620,7 @@ class OperationController extends Controller
         ]);
     }
 
-    // ACTUALIZACIÓN
+    // ACTUALIZACIÓN SIN REPROGRAMACIÓN
 
     else {
       $operation->update($requestOperation);

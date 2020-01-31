@@ -24,3 +24,4 @@ Route::post('position', 'Api\PositionController@show')->name('apiposition');
 Route::post('dependency', 'Api\DependencyController@show')->name('apidependency');
 Route::post('plan', 'Api\PlanController@show')->name('apiplan');
 Route::get('/gantt/{id}', 'Api\GanttController@show')->name('apigantt');
+Route::post('cpd', 'Api\OperationController@getSumPonderation');

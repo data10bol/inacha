@@ -102,6 +102,10 @@
           </td>
         </tr>
         <tr>
+          <th>UNIDAD RESPONSABLE</th>
+          <td>{{ (isset($task))?$task->operation->definitions->last(): $operation->definitions->last()->department->initial }}</td>
+        </tr>
+        <tr>
           <th class="align-top text-left">
             {!! Form::label('users', 'RESPONSABLE(S)', ['class' => 'col-form-label']) !!}
           </th>

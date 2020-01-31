@@ -1,3 +1,4 @@
+
 <table class="table table-bordered table-striped dataTable"
        role="grid"
        aria-describedby="main table">
@@ -20,26 +21,7 @@
             </div>
           </td>
         </tr>
-        <tr>
-          <th class="align-top text-left">
-            {!! Form::label('department', 'DEPARTAMENTO', ['class' => 'col-form-label']) !!}
-          </th>
-          <td class="align-center text-justify">
-            <div class="col-sm-12">
-              @if(isset($submitButtonText))
-                {{ $operation->action->department->name}}
-              @else
-                {{ $action->department->name }}
-              @endif
-            </div>
-            <div class="col-sm-10">
-              <label>
-                <code>
-                </code>
-              </label>
-            </div>
-          </td>
-        </tr>
+        
         <tr>
           <th class="align-top text-left" style="width: 120px">
             {!! Form::label('action_id', 'A. CORTO PLAZO', ['class' => 'col-form-label']) !!}
@@ -57,6 +39,78 @@
             <div class="col-sm-10">
               <label>
                 <code>
+                </code>
+              </label>
+            </div>
+          </td>
+        </tr>
+        @php
+        
+        @endphp
+        <tr>
+          <th class="align-top text-left">
+            {!! Form::label('department_id', 'DEPARTAMENTO', ['class' => 'col-form-label']) !!}
+          </th>
+          <td class="align-center text-justify">
+            <div class="col-sm-10">
+              @if(isset($submitButtonText))
+                {!! Form::select('department_id',$unitys,$operation->definitions->last()->department_id,['class' => 'form-control','id' => 'ids_dep','onchange' => 'consult();'])!!}
+              @else
+                {!! Form::select('department_id',$unitys,$action->department->id,['class' => 'form-control','id' => 'ids_dep','onchange' => 'consult();'])!!}
+              @endif
+            </div>
+            <div class="col-sm-10">
+              <label>
+                <code>
+                  {!! $errors->first('department_id', '<p class="help-block">:message</p>') !!}
+                </code>
+              </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th class="align-top text-left">
+            {!! Form::label('dep_ponderation','PODERACIÓN DE DEPARTAMENTO (%)', ['class' => 'col-form-label']) !!}
+          </th>
+          <td class="align-center text-justify">
+            
+            <div class="col-sm-3">
+              {!! Form::text('dep_ponderation',
+              isset($operation)?isset($operation->definitions->first()->dep_ponderation)?$operation->definitions->first()->dep_ponderation:null:null,
+                      ( '' == 'required') ? [
+                              'class' => 'form-control',
+                              'rows' => '3',
+                              'max' => '100',
+                              'required' => 'required']:[
+                              'class' => 'form-control',
+                              'rows' => '3',
+                              'onkeyup' => "calculate()",
+                              'id'=>'dep_ponderation',
+                              'max' => '100'
+                              ])
+              !!}
+            </div>
+            @php
+              $sum_op =  \App\Definition::where('definition_type','App\Operation')->
+                                          where('department_id',(isset($operation))?$operation->definitions->last()->department_id:$action->department->id)->
+                                          pluck('dep_ponderation')->
+                                          sum();
+              $re = 100-$sum_op;
+              if($re <= 0){
+                $st1 = 'text-danger';
+              }else{
+                $st1 = 'text-success';
+              }
+
+            @endphp
+            <div class="col-sm-3 {{$st1}}" id='resp_txt1' >
+              [{{$re}}%] de ponderación Restante 
+            </div>
+          
+            <div class="col-sm-10">
+              <label>
+                <code>
+                  {!! $errors->first('dep_ponderation', '<p class="help-block">:message</p>') !!}
                 </code>
               </label>
             </div>
@@ -425,6 +479,34 @@ function redondeo(numero, decimales){
     else
         document.getElementById('su').disabled=true;
     
+  }
+  function estimate(){
+    var result = document.getElementById('dep_ponderation').value;
+    //alert(result);
+  }
+  function consult(){
+    //valor del combo box de las empresas
+    var id = document.getElementById("ids_dep").value;
+    var token = $('input[name=_token]').val();
+    $.ajax({
+        type: 'post',
+        url: '/api/cpd',
+        data: {
+            '_token': token,
+            'id' : id
+        },
+        success: function(data){
+            var tx = '['+data+'%] de ponderación Restante ';
+            data = parseInt(data);
+            if( data <= 0){
+              var st2 = "col-sm-3 text-danger";
+            }else{
+              var st2 = "col-sm-3 text-success";
+            }
+            document.getElementById("resp_txt1").className = st2;
+            $('#resp_txt1').html(tx);
+        }
+    });
   }
 </script>
 @php

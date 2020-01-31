@@ -231,13 +231,15 @@
                           </div>
                         </td>
                       </tr>
-                      <tr>
+                      <!--tr>
                         <th class="align-top text-left">
                           COD. PROG.
                         </th>
                         <td class="align-top text-justify">
                           <div class="col-sm-12">
-                            {!! $action->structures->first()->code !!}
+                            @php
+                            //{!! $action->structures->first()->code !!}
+                            @endphp
                           </div>
                         </td>
                       </tr>
@@ -247,10 +249,12 @@
                         </th>
                         <td class="align-top text-justify">
                           <div class="col-sm-12">
-                            {!! $action->structures->first()->name !!}
+                            @php
+                              //{!! $action->structures->first()->name !!}
+                            @endphp
                           </div>
                         </td>
-                      </tr>
+                      </tr >
                       <tr>
                         <th class="align-top text-left">
                           PRESUPUESTO CORRIENTE (Bs.)
@@ -280,7 +284,7 @@
                             CALCULAR
                           </div>
                         </td>
-                      </tr>
+                      </tr-->
                     </table>
                   </td>
                   @php

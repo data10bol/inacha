@@ -351,7 +351,7 @@
       </div>
     </td>
   </tr>
-  <tr>
+<!--   <tr>
     <th class="align-top text-left">
       {!! Form::label('scode', 'COD. PROG.', ['class' => 'col-form-label', 'style' => 'color:#f96332']) !!}
     </th>
@@ -401,7 +401,7 @@
       </div>
     </td>
   </tr>
-<!--    <tr>
+  <tr>
             <th class="align-top text-left">
                 {!! Form::label('current', 'PRESUPUESTO CORRIENTE (Bs.)', ['class' => 'col-form-label', 'style' => 'color:#f96332']) !!}
   </th>

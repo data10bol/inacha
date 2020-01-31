@@ -35,6 +35,8 @@ class OperationRequest extends FormRequest
             'describe' => 'required|min:15|max:160',
             'pointer' => 'required|min:15|max:160',
             'validation' => 'required|min:15|max:512',
+            'department_id' => 'required',
+            'dep_ponderation' => 'required|numeric|min:1|max:100'
 //            'start' => 'required',
 //            'finish' => 'required|gte:start',
         ];
@@ -125,6 +127,13 @@ class OperationRequest extends FormRequest
             'validation.required' => 'Se requiere una forma de validación',
             'validation.min' => 'Mínimo 15 caracteres',
             'validation.max' => 'Máximo 512 caracteres',
+
+            'department_id.required' => 'El Campo departamento es requerído',
+
+            'dep_ponderation.required' => 'Debe definir una ponderación',
+            'dep_ponderation.numeric' => 'Debe introducir un carácter numérico entero',
+            'dep_ponderation.min' => 'Debe tener un valor mínimo de 1',
+            'dep_ponderation.max' => 'Debe poner un valor máximo de 100',
 
 //            'start.required' => 'Debe definir un mes de inicio',
 

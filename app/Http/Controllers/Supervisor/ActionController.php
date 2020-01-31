@@ -206,9 +206,9 @@ class ActionController extends Controller
 
     $requestAction = $request->only(
       'department_id',
-//                        'code',
+    //                        'code',
       'goal_id'
-//                        'year'
+    //                        'year'
     );
     $requestAction['code'] = $code;
     $requestAction['year'] = activeyear();
@@ -245,8 +245,7 @@ class ActionController extends Controller
     $action->definitions()->create($requestDefinition);
     $action->poas()->create($requestPoa);
     $action->poas()->create(['state' => '1']);
-    $action->structures()->create(['code' => $requestStructure['scode'],
-      'name' => $requestStructure['name']]);
+    //$action->structures()->create(['code' => $requestStructure['scode'],'name' => $requestStructure['name']]);
 
     \Toastr::success(
       "Una nuevo registro fue agregado",
@@ -437,8 +436,7 @@ class ActionController extends Controller
 
       $action->definitions()->update($requestDefinition);
       $action->poas()->Where('state', '0')->update($requestPoa);
-      $action->structures()->update(['code' => $requestStructure['scode'],
-        'name' => $requestStructure['name']]);
+      //$action->structures()->update(['code' => $requestStructure['scode'],'name' => $requestStructure['name']]);
 
       \Toastr::warning(
         "El registro fue actualizado",

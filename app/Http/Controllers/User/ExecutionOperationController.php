@@ -51,7 +51,7 @@ class ExecutionOperationController extends Controller
     if (isset($type) && $type == "pdf")
       $perPage = 25000;
     else
-      $perPage = 25;
+      $perPage = 25000;
 
     $header = ([
       [

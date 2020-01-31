@@ -10,6 +10,7 @@
           'addtop' => false,
           'pdf' => true,
           'urlpdf' => ''.Request::url().'?search='.Request::get('search').'&type=pdf',
+          'search' => false
       ])
       @endcomponent
       <!-- /.card-header -->
@@ -29,7 +30,7 @@
               </marquee>
               <table class="table table-hover dataTable"
                      role="grid"
-                     aria-describedby="main table">
+                     aria-describedby="main table" id="operation2">
                 @component('layouts.partials.theader',[
                     'arg'=>$header
                     ])
@@ -176,6 +177,11 @@
           html:true ,
           trigger: 'focus'
         });  
+  });
+  $(document).ready(function() {
+    $('#operation2').DataTable({
+      "columnDefs": [ { "orderable": false, "targets": [11] } ]
+    });
   });
   </script>
 @endsection

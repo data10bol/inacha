@@ -37,8 +37,8 @@ class ActionRequest extends FormRequest
             'pointer' => 'required|min:15|max:128',
             'measure' => 'required|min:15|max:128',
             'validation' => 'required|min:15|max:512',
-            'scode' => 'required',
-            'name' => 'required',
+           // 'scode' => 'required',
+          //  'name' => 'required',
 
           ];
 
@@ -103,8 +103,8 @@ class ActionRequest extends FormRequest
     public function messages()
     {
     return [
-//            'code.required' => 'Se requiere definir un código',
-//            'code.unique' => 'El código ya está siendo utilizado',
+            //            'code.required' => 'Se requiere definir un código',
+            //            'code.unique' => 'El código ya está siendo utilizado',
 
             'department_id.required' => 'Debe elegir un departamento responsable',
 
@@ -142,11 +142,10 @@ class ActionRequest extends FormRequest
             'validation.min' => 'Mínimo de 15 caracteres',
             'validation.max' => 'Máximo de 128 caracteres',
 
-            'scode.required' => 'Debe definir un código',
+            //'scode.required' => 'Debe definir un código',
 
-            'name.required' => 'Debe ingresar una denominación',
-
-        ];
+            //'name.required' => 'Debe ingresar una denominación',
+    ];
     }
 
 }

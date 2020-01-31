@@ -40,4 +40,9 @@ class Department extends Model
 		return $this->hasMany('App\Action');
 	}
 
+	public function definitions()
+	{
+		return $this->hasMany('App\Definition');
+	}
+
 }

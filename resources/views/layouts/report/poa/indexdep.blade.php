@@ -9,6 +9,7 @@
             'addtop' => false,
             'pdf' => true,
             'urlpdf' => ''.Request::url().'?month='.Request::get('month').'&id='.Hashids::encode($department->id ).'&type=pdf',
+            'search' => false
         ])
         @endcomponent
       </div>

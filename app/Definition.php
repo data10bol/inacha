@@ -18,6 +18,8 @@ class Definition extends Model implements Auditable
 
   protected $fillable = [
     'description',
+    'department_id',
+    'dep_ponderation',
     'measure',
     'ponderation',
     'base',
@@ -39,6 +41,10 @@ class Definition extends Model implements Auditable
   public function definition()
   {
     return $this->morphTo();
+  }
+  public function department()
+  {
+    return $this->belongsTo('App\Department');
   }
 
 }
