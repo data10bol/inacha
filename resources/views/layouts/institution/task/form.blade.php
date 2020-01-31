@@ -103,7 +103,7 @@
         </tr>
         <tr>
           <th>UNIDAD RESPONSABLE</th>
-          <td>{{ (isset($task))?$task->operation->definitions->last(): $operation->definitions->last()->department->initial }}</td>
+          <td>{{ (isset($task))?$task->operation->definitions->last()->department->initial: $operation->definitions->last()->department->initial }}</td>
         </tr>
         <tr>
           <th class="align-top text-left">

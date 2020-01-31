@@ -129,11 +129,11 @@
                         ('' == 'required') ? [
                             'class' => 'form-control',
                             'rows' => '2',
-                            'maxlength' => '512',
+                            'maxlength' => '510',
                             'required' => 'required']:[
                             'class' => 'form-control',
                             'rows' => '2',
-                            'maxlength' => '512'])
+                            'maxlength' => '510'])
         !!}
       </div>
       <div class="col-sm-10">
@@ -156,11 +156,11 @@
                     ('' == 'required') ? [
                         'class' => 'form-control',
                         'rows' => '2',
-                        'maxlengtht' => '128',
+                        'maxlengtht' => '510',
                         'required' => 'required']:[
                         'class' => 'form-control',
                         'rows' => '2',
-                        'maxlength' => '128'])
+                        'maxlength' => '510'])
         !!}
       </div>
       <div class="col-sm-10">
@@ -182,10 +182,10 @@
             isset($action)?isset($action->definitions->first()->pointer)?$action->definitions->first()->pointer:null:null,
                     ('' == 'required') ? [
                         'class' => 'form-control',
-                        'maxlength' => '120',
+                        'maxlength' => '200',
                         'required' => 'required']:[
                         'class' => 'form-control',
-                        'maxlength' => '120'])
+                        'maxlength' => '200'])
         !!}
       </div>
       <div class="col-sm-10">
@@ -208,11 +208,11 @@
                     ('' == 'required') ? [
                         'class' => 'form-control',
                         'rows' => '2',
-                        'maxlength' => '127',
+                        'maxlength' => '500',
                         'required' => 'required']:[
                         'class' => 'form-control',
                         'rows' => '2',
-                        'maxlength' => '127'])
+                        'maxlength' => '500'])
         !!}
       </div>
       <div class="col-sm-10">

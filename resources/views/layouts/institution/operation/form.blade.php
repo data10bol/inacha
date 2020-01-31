@@ -80,13 +80,13 @@
                       ( '' == 'required') ? [
                               'class' => 'form-control',
                               'rows' => '3',
-                              'max' => '100',
+                              'max' => '10',
                               'required' => 'required']:[
                               'class' => 'form-control',
                               'rows' => '3',
                               'onkeyup' => "calculate()",
                               'id'=>'dep_ponderation',
-                              'max' => '100'
+                              'max' => '10'
                               ])
               !!}
             </div>
@@ -131,7 +131,7 @@
                               'required' => 'required']:[
                               'class' => 'form-control',
                               'rows' => '3',
-                              'maxlength' => '512'])
+                              'maxlength' => '510'])
               !!}
             </div>
             <div class="col-sm-10">
@@ -183,11 +183,11 @@
                       ('' == 'required') ? [
                               'class' => 'form-control',
                               'rows' => '3',
-                              'maxlength' => '150',
+                              'maxlength' => '200',
                               'required' => 'required']:[
                               'class' => 'form-control',
                               'rows' => '3',
-                              'maxlength' => '150'])
+                              'maxlength' => '200'])
               !!}
             </div>
             <div class="col-sm-10">
@@ -214,7 +214,7 @@
                               'required' => 'required']:[
                               'class' => 'form-control',
                               'rows' => '3',
-                              'maxlength' => '150'])
+                              'maxlength' => '510'])
               !!}
             </div>
             <div class="col-sm-10">

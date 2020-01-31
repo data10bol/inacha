@@ -32,8 +32,8 @@ class OperationRequest extends FormRequest
             'ponderation' => 'required|numeric|max:100',
             'base' => 'required|numeric',
             'aim' => 'required|numeric|max:100|gte:base',
-            'describe' => 'required|min:15|max:160',
-            'pointer' => 'required|min:15|max:160',
+            'describe' => 'required|min:15|max:500',
+            'pointer' => 'required|min:15|max:200',
             'validation' => 'required|min:15|max:512',
             'department_id' => 'required',
             'dep_ponderation' => 'required|numeric|min:1|max:100'
