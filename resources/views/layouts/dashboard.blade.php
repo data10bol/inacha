@@ -29,7 +29,7 @@
                         }
                       }
                     @endphp
-                    (Mes: Plan. {{$apl}}/ Ejec.{{$aej}})
+                    ({{substr(strtoupper(App\Month::Where('id',activemonth())->first()->name),0,3)}}: Plan. {{$apl}}/ Ejec.{{$aej}})
                   @endrole
                   @else
                   0
@@ -44,7 +44,6 @@
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
               <span class="info-box-icon bg-dark elevation-1"><i class="fa fa-tags"></i></span>
-
               <div class="info-box-content">
                 <span class="info-box-text">OPERACIONES</span>
                 <span class="info-box-number">
@@ -68,7 +67,7 @@
                         }
                       }
                     @endphp
-                    (Mes: Plan. {{$opl}}/ Ejec.{{$oej}})
+                    ({{substr(strtoupper(App\Month::Where('id',activemonth())->first()->name),0,3)}}: Plan. {{$opl}}/ Ejec.{{$oej}})
                   @endrole
                   @else
                     0
@@ -105,7 +104,7 @@
                         }
                       }
                     @endphp
-                    (Mes: Plan. {{$tpl}}/ Ejec.{{$tej}})
+                    ({{substr(strtoupper(App\Month::Where('id',activemonth())->first()->name),0,3)}}: Plan. {{$tpl}}/ Ejec.{{$tej}})
                   @endrole
                   @else
                     0
