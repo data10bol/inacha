@@ -1,6 +1,9 @@
 @extends('layouts.master')
 @section('title', 'Principal')
 @section('content')
+@php
+$mm = substr(strtoupper(App\Month::Where('id',activemonth())->first()->name),0,3);
+@endphp
   <section>
     <div class="content">
       <div class="container-fluid">
