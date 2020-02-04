@@ -120,6 +120,7 @@ class ExecutionActionController extends Controller
 
       $ids = Action::Select('id')
         ->Where('department_id', Auth::user()->position->department->id)
+        ->Where('year',(string)activeyear())
         ->pluck('id')
         ->toarray();
 

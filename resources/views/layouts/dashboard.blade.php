@@ -17,7 +17,7 @@ $mm = substr(strtoupper(App\Month::Where('id',activemonth())->first()->name),0,3
                 <span class="info-box-number">
                   @if(isset($actions))
                   {{ $actions->count()}}
-                  @role('Administrador|Supervisor')
+                  @role('Administrador|Supervisor|Responsable')
                     @php
                       $apl = 0;
                       $m = 'm'.activemonth();
@@ -52,7 +52,7 @@ $mm = substr(strtoupper(App\Month::Where('id',activemonth())->first()->name),0,3
                 <span class="info-box-number">
                   @if (isset($operations))
                   {{ $operations->count()}}
-                  @role('Administrador|Supervisor')
+                  @role('Administrador|Supervisor|Responsable')
                     @php
                       $opl = 0;
                       $m = 'm'.activemonth();
