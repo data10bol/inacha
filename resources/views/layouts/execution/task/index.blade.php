@@ -77,8 +77,14 @@
                         @php
                           $prog = App\Poa::Where('poa_type','App\Task')->Where('poa_id',$item->id)->first()->toarray();
                           $totalprog = 0;
-                          for($i=1;$i<=12;$i++)
+                          $meep = 0;
+                          for($i=1;$i<=12;$i++){
                             $totalprog += $prog["m".$i];
+                            if($i==activemonth()){
+                              $meep = $prog["m".$i];
+                            }
+                          }
+                            
                         @endphp
                         {{ $totalprog }}%
                         @php
@@ -86,6 +92,10 @@
                           @endphp
                         @if(!empty($item->poas()->where('month', activemonth())->first()->$month))
                           <i class="fa fa-check-square text-success" title="Tarea Ejecutada"></i>
+                        @else
+                          @if ($meep>0)
+                          <i class="fa fa-exclamation-triangle text-warning fa-blink" title="Tarea Pendiente"></i>
+                          @endif
                         @endif
                         @if(!empty($item->operation->poas()->where('month', activemonth())->first()->$month))
                           <i class="fa fa-check-square text-success" title="Operacion Ejecutada"></i>

@@ -53,18 +53,39 @@ function accum($id, $type, $state, $month,$rep = false)
     }
 
     if($type == 'DEPARTMENT'){
-      $action = new \App\Action;
-      $actions = $action->
-      Where('department_id',$id)->
-      Where('year',activeyear())->
-      Where('status',true)->
-      get();
-      if(isset($actions)){
-        foreach ($actions as $item)
-          $total += accum($item->id,'Action',$state,$month);
-        if(sizeof($actions) != 0)
+      if(activeyear()<=2019){
+        $action = new \App\Action;
+        $actions = $action->
+        Where('department_id',$id)->
+        Where('year',activeyear())->
+        Where('status',true)->
+        get();
+        if(isset($actions)){
+
+          foreach ($actions as $item)
+            $total += accum($item->id,'Action',$state,$month, $rep);
+
           $total /= sizeof($actions);
+        }
+      }else{
+        
+        $yer = (string)activeyear();
+        $ids_operations = \App\Operation::where('created_at','>',$yer)->pluck('id')->toArray();
+        $definitions = \App\Definition::where('definition_type','App\operation')->
+                                        wherein('definition_id',$ids_operations)->
+                                        where('department_id',$id)->
+                                        pluck('definition_id')->
+                                        toArray();
+                          
+                                        ///generamos los IDs de las operaicones relacionadas al Departamento
+        $operations = \App\Operation::wherein('id',$definitions)->get();
+        if(isset($operations)){
+          foreach ($operations as $item ) {
+            $total += (accum($item->id,'Operation',$state,$month, $rep)*$item->definitions->last()->dep_ponderation)/100;
+          }
+        }
       }
+
     }
     elseif($type == 'TOTAL'){
       $action = new \App\Action;
@@ -75,8 +96,10 @@ function accum($id, $type, $state, $month,$rep = false)
 
       if(isset($actions)){
         $goals = $action->Select('goal_id')->
+        Where('year',activeyear())->
         GroupBy('goal_id')->
-        count();
+        get();
+        $goals = count($goals);
         ///contamos los goals
 
         foreach ($actions as $item)
@@ -85,6 +108,7 @@ function accum($id, $type, $state, $month,$rep = false)
                     first()->ponderation;
 
         $total /= $goals;
+        
       }else{
         return 'Sin Acciones';
       }
@@ -128,18 +152,37 @@ function accum($id, $type, $state, $month,$rep = false)
     }
 
     if($type == 'DEPARTMENT'){
-      $action = new \App\Action;
-      $actions = $action->
-      Where('department_id',$id)->
-      Where('year',activeyear())->
-      Where('status',true)->
-      get();
-      if(isset($actions)){
+      if(activeyear()<=2019){
+        $action = new \App\Action;
+        $actions = $action->
+        Where('department_id',$id)->
+        Where('year',activeyear())->
+        Where('status',true)->
+        get();
+        if(isset($actions)){
 
-        foreach ($actions as $item)
-          $total += accum($item->id,'Action',$state,$month, $rep);
+          foreach ($actions as $item)
+            $total += accum($item->id,'Action',$state,$month, $rep);
 
-        $total /= sizeof($actions);
+          $total /= sizeof($actions);
+        }
+      }else{
+        
+        $yer = (string)activeyear();
+        $ids_operations = \App\Operation::where('created_at','>',$yer)->pluck('id')->toArray();
+        $definitions = \App\Definition::where('definition_type','App\operation')->
+                                        wherein('definition_id',$ids_operations)->
+                                        where('department_id',$id)->
+                                        pluck('definition_id')->
+                                        toArray();
+                          
+                                        ///generamos los IDs de las operaicones relacionadas al Departamento
+        $operations = \App\Operation::wherein('id',$definitions)->get();
+        if(isset($operations)){
+          foreach ($operations as $item ) {
+            $total += (accum($item->id,'Operation',$state,$month, $rep)*$item->definitions->last()->dep_ponderation)/100;
+          }
+        }
       }
     }
     elseif($type == 'TOTAL'){
@@ -149,7 +192,12 @@ function accum($id, $type, $state, $month,$rep = false)
                   Where('status',true)->
                   get();
       if(isset($actions)){
-        $goals = $action->Select('goal_id')->GroupBy('goal_id')->count();///cantidad de acciones
+        $goals = $action->
+        Select('goal_id')->
+        Where('year',activeyear())->
+        GroupBy('goal_id')->
+        get();
+        $goals = count($goals);
         foreach ($actions as $item)
           $total += accum($item->id,'Action',$state,$month, $rep)*0.01*$item->definitions()->first()->ponderation;
         $total /= $goals;
@@ -1047,16 +1095,7 @@ function graphcolumn($name, $datap, $datae, $width, $height){
 *** */
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //$chartaccuma_ofep = chartaccum(0,'Total','Accum', 6,'charta');
-
-
 
 function chartaccum($id, $type, $graph, $m, $name)
 {
@@ -1067,7 +1106,7 @@ function chartaccum($id, $type, $graph, $m, $name)
     case 'ACCUM':
 ////aqui es el cambio del chart
       $ban = true;
-      $refo = \App\Reformulation::pluck('month')->toarray();
+      $refo = \App\Reformulation::where('year',activeyear())->pluck('month')->toarray();
       for ($i=0; $i < count($refo); $i++) {
         if($m >= $refo[$i]){
           $ban = false;
@@ -1107,20 +1146,39 @@ function chartaccum($id, $type, $graph, $m, $name)
 //fin del Chart
     case 'MONTH':
       $month = 'm' . $m;
-      if($m > 1){
-        if(activeReprogMonth()==$m){
-          $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m -1), 2, '.', '');
-
-          $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m-1), 2, '.', '') ;
-        }else{
-          $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '') - number_format((float)accum($id, $type, false, $m -1), 2, '.', '');
-
-          $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m-1), 2, '.', '') ;
+      $refo = \App\Reformulation::where('year',activeyear())->pluck('month')->toarray();
+      if(count($refo)){
+        if($m > 1){
+          if(activeReprogMonth()==$m){
+            $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m -1), 2, '.', '');
+  
+            $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m-1), 2, '.', '') ;
+          }else{
+            $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '') - number_format((float)accum($id, $type, false, $m -1), 2, '.', '');
+  
+            $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m-1), 2, '.', '') ;
+          }
         }
-      }
-      else {
-        $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '');
-        $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '');
+        else {
+          $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '');
+          $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '');
+        }
+      }else{
+        if($m > 1){
+          if(activeMonth()==$m){
+            $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m -1), 2, '.', '');
+  
+            $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m-1), 2, '.', '') ;
+          }else{
+            $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '') - number_format((float)accum($id, $type, false, $m -1), 2, '.', '');
+  
+            $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '') - number_format((float)accum($id, $type, true, $m-1), 2, '.', '') ;
+          }
+        }
+        else {
+          $datap =  number_format((float)accum($id, $type, false, $m), 2, '.', '');
+          $datae =  number_format((float)accum($id, $type, true, $m), 2, '.', '');
+        }
       }
       $chart = graphcolumn($name, $datap, $datae, 450, 350);
       break;
