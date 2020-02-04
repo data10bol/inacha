@@ -103,12 +103,14 @@ class DashboardController extends Controller
                         orderBy('code', 'ASC')->
                         get();
       } else {
+        
         $tasks = $task->//Wherein('operation_id', $operations->pluck('id')->toArray())->
+        where('created_at' ,'>',(string)activeyear())->
         orderByRaw(DB::raw("FIELD(operation_id, $operations_ordered)"))->
+
         orderBy('code', 'ASC')->
         get();
       }
-
       // END TASKS FAST FILLING
 
       // RESUME GENERATOR
@@ -157,7 +159,6 @@ class DashboardController extends Controller
       }
 
       // END RESUME GENERATOR
-
       logrec('home', \Route::currentRouteName());
 
       return view('layouts.dashboard')->

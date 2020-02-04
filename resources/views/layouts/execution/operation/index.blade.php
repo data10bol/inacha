@@ -41,7 +41,7 @@
                   @php
                     $item = $operation->Where('id',$id)->first();
                   @endphp
-                  @if(isset($item))
+                  @if(isset($item) && accum($item->id, 'Operation', false, activemonth())>0)
                     <tr>
                       <td class="align-top text-center">
                         {{ $item->action->goal->code }}.{{
@@ -88,8 +88,9 @@
                             <i class="fa fa-check-square text-success"></i>
                             @php
                             $ar[3] = false;
-                            //ok
                             @endphp
+                          @else
+                            <i class="fa fa-exclamation-triangle text-warning fa-blink" title="Operación Pendiente"></i>
                           @endif
                         @else
                           <span tabindex="0" role="button" class="badge badge-{{$ar[2]}}" data-toggle="popover" data-trigger="focus" title="Pendientes de Ejecución" data-content="{{$ar[4]}}" ><small>{{$ar[1]}} / {{$ar[0]}}</small></span>

@@ -34,6 +34,7 @@
                   $m = 'm'.activemonth();
                 @endphp
                 @forelse($action as $item)
+                @if ((float)$item->poas->where('state',false)->pluck($m)[0]>0)
                   <tr>
                     <td class="align-top text-center">
                       {{ $item->goal->code }}.{{
@@ -111,6 +112,7 @@
                   ($item->goal->id != $tmp2)?
                   $tmp2=$item->goal->id:null;
                   @endphp
+                @endif
                 @empty
                   {!! emptyrecord(count($header)+1) !!}
                 @endforelse

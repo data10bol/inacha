@@ -34,8 +34,10 @@
                 @forelse($idt as $id)
                   @php
                     $item = $task->Where('id',$id)->first();
+                    $mess = 'm'.activemonth();
+                    
                   @endphp
-                  @if(isset($item))
+                  @if(isset($item)&& (float)$item->poas->where('state',false)->pluck($mess)[0]>0)
                     <tr @if(!$item->status) class="text-muted" @endif>
                       <td class="align-top text-center ">
                         {{ $item->operation->action->goal->code }}.{{
