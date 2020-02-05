@@ -418,17 +418,17 @@
                           </td>
                           <td>
                             {!! isset($operation->poas->Where('month',$month->id)->first()->success)?
-                                $operation->poas->Where('month',$month->id)->first()->success:
+                                  nl2br($operation->poas->Where('month',$month->id)->first()->success):
                                 '<font color="red">SIN REGISTRO</font>'!!}
                           </td>
                           <td>
                             {!! isset($operation->poas->Where('month',$month->id)->first()->failure)?
-                                    $operation->poas->Where('month',$month->id)->first()->failure:
+                                  nl2br($operation->poas->Where('month',$month->id)->first()->failure):
                                     '<font color="red">SIN REGISTRO</font>'!!}
                           </td>
                           <td>
                             {!! isset($operation->poas->Where('month',$month->id)->first()->solution)?
-                        $operation->poas->Where('month',$month->id)->first()->solution:
+                                  nl2br($operation->poas->Where('month',$month->id)->first()->solution):
                         '<font color="red">SIN REGISTRO</font>'!!}
                           </td>
                         </tr>

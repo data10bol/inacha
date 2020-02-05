@@ -456,17 +456,17 @@
                           </td>
                           <td>
                             {!! isset($task->poas->Where('month',$month->id)->first()->success)?
-                                $task->poas->Where('month',$month->id)->first()->success:
+                                    nl2br($task->poas->Where('month',$month->id)->first()->success):
                                 '<font color="red">SIN REGISTRO</font>'!!}
                           </td>
                           <td>
                             {!! isset($task->poas->Where('month',$month->id)->first()->failure)?
-                                    $task->poas->Where('month',$month->id)->first()->failure:
+                                    nl2br($task->poas->Where('month',$month->id)->first()->failure):
                                     '<font color="red">SIN REGISTRO</font>'!!}
                           </td>
                           <td>
                             {!! isset($task->poas->Where('month',$month->id)->first()->solution)?
-                        $task->poas->Where('month',$month->id)->first()->solution:
+                                    nl2br($task->poas->Where('month',$month->id)->first()->solution):
                         '<font color="red">SIN REGISTRO</font>'!!}
                           </td>
                         </tr>

@@ -85,45 +85,23 @@ class OperationController extends Controller
       ]
     ]);
 
-    $ido = Operation::Join('actions', 'operations.action_id', '=', 'actions.id')
-      ->Join('goals', 'actions.goal_id', '=', 'goals.id')
-      ->Where('actions.year', activeyear())
-      ->OrderBy('goals.code', 'ASC')
-      ->Orderby('actions.code', 'ASC')
-      ->OrderBy('operations.code', 'ASC')
-      ->pluck('operations.id')
-      ->toarray();
+    $ido = \App\Definition::Where('definition_type','App\Operation')->
+                            where('created_at','>',(string)activeyear())->
+                            pluck('definition_id')->
+                            ToArray();
+    
+    $operation = Operation::OrderBy('code', 'ASC')->get();
+      
+    if (Auth::user()->hasRole('Responsable')) {
 
-    if (!empty($keyword)) {
-      $ids = search_operation($keyword);
+      $ids = \App\Definition::Where('department_id',Auth::user()->position->department_id)->
+                          Where('definition_type','App\Operation')->
+                          where('created_at','>',(string)activeyear())->
+                          pluck('definition_id')->
+                          ToArray();
 
-      if (!empty($ids)) {
-        $operation = Operation::WhereIn('id', $ids)
-          ->OrderBy('action_id', 'ASC')
-          ->OrderBy('code', 'ASC')
-          ->paginate($perPage);
-      } else {
-        $operation = Operation::orderBy('action_id', 'ASC')
-          ->OrderBy('action_id', 'ASC')
-          ->OrderBy('code', 'ASC')
-          ->paginate($perPage);
-      }
-    }
-    else {
-      $operation = Operation::orderBy('action_id', 'ASC')
-        ->OrderBy('action_id', 'ASC')
-        ->OrderBy('code', 'ASC')
-        ->paginate($perPage);
-    }
-
-    if (Auth::user()->hasRole('Responsable|Usuario')) {
-      $ids = Action::Select('id')
-        ->Where('department_id', Auth::user()->position->department->id)
-        ->pluck('id')
-        ->toarray();
-
-      $operation = Operation::WhereIn('action_id', $ids)
-        ->paginate($perPage);
+      $operation = Operation::Wherein('id', $ids)
+        ->get();
     }
 
     $months = Month::OrderBy('id', 'ASC')

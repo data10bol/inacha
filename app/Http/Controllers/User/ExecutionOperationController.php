@@ -46,7 +46,7 @@ class ExecutionOperationController extends Controller
   {
     if(check_reconf())
         return view('layouts.partials.banner');
-    $keyword = $request->get('search');
+    //$keyword = $request->get('search');
     $type = $request->get('type');
     if (isset($type) && $type == "pdf")
       $perPage = 25000;
@@ -90,46 +90,22 @@ class ExecutionOperationController extends Controller
       ]
     ]);
 
-    $ido = Operation::Join('actions', 'operations.action_id', '=', 'actions.id')
-      ->Join('goals', 'actions.goal_id', '=', 'goals.id')
-      ->Where('actions.year', activeyear())
-      ->OrderBy('goals.code', 'ASC')
-      ->Orderby('actions.code', 'ASC')
-      ->OrderBy('operations.code', 'ASC')
-      ->pluck('operations.id')
-      ->toarray();
-
-    if (!empty($keyword)) {
-
-      $ids = search_operation($keyword);
-
-      if (!empty($ids)) {
-        $operation = Operation::WhereIn('id', $ids)
-          ->OrderBy('action_id', 'ASC')
-          ->OrderBy('code', 'ASC')
-          ->paginate($perPage);
-      } else {
-        $operation = Operation::orderBy('action_id', 'ASC')
-          ->OrderBy('action_id', 'ASC')
-          ->OrderBy('code', 'ASC')
-          ->paginate($perPage);
-      }
-    } else {
-      $operation = Operation::orderBy('action_id', 'ASC')
-        ->OrderBy('action_id', 'ASC')
-        ->OrderBy('code', 'ASC')
-        ->paginate($perPage);
-    }
-
+    $ido = \App\Definition::Where('definition_type','App\Operation')->
+                            where('created_at','>',(string)activeyear())->
+                            pluck('definition_id')->
+                            ToArray();
+    
+    $operation = Operation::OrderBy('code', 'ASC')->get();
+      
     if (Auth::user()->hasRole('Responsable')) {
 
-      $ids = Action::Select('id')
-        ->Where('department_id', Auth::user()->position->department->id)
-        ->pluck('id')
-        ->toarray();
+      $ids = \App\Definition::Where('department_id',Auth::user()->position->department_id)->
+                          Where('definition_type','App\Operation')->
+                          where('created_at','>',(string)activeyear())->
+                          pluck('definition_id')->
+                          ToArray();
 
-      $operation = Operation::Wherein('action_id', $ids)
-        ->paginate($perPage);
+      $operation = Operation::Wherein('id', $ids)->get();
     }
 
     $months = Month::OrderBy('id', 'ASC')

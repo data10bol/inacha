@@ -63,11 +63,15 @@ class DashboardController extends Controller
       }
 
       $actions_ordered = implode(',', $actions->pluck('id')->toarray());
-
-      $operations = $operation->Wherein('action_id', $actions->pluck('id')->toArray())->
-      orderByRaw(DB::raw("FIELD(action_id, $actions_ordered)"))->
-      OrderBy('code', 'ASC')->
-      get();
+      $ids = \App\Definition::Where('department_id',Auth::user()->position->department_id)->
+                              Where('definition_type','App\Operation')->
+                              where('created_at','>',(string)activeyear())->
+                              pluck('definition_id')->
+                              ToArray();
+      $operations = $operation->Wherein('id', $ids)->
+                    //orderByRaw(DB::raw("FIELD(action_id, $actions_ordered)"))->
+                    OrderBy('code', 'ASC')->
+                    get();
 
       if(count ($operations) == 0){
         $tasks = null;

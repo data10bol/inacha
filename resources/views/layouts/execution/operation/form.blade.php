@@ -178,17 +178,17 @@
                   </td>
                   <td>
                     {!! isset($task->poas->Where('month',activemonth())->first()->success)?
-                        $task->poas->Where('month',activemonth())->first()->success:
+                        nl2br($task->poas->Where('month',activemonth())->first()->success):
                         '<font color="red">SIN REGISTRO</font>'!!}
                   </td>
                   <td>
                     {!! isset($task->poas->Where('month',activemonth())->first()->failure)?
-                            $task->poas->Where('month',activemonth())->first()->failure:
+                            nl2br($task->poas->Where('month',activemonth())->first()->failure):
                             '<font color="red">SIN REGISTRO</font>'!!}
                   </td>
                   <td>
                     {!! isset($task->poas->Where('month',activemonth())->first()->solution)?
-                $task->poas->Where('month',activemonth())->first()->solution:
+                nl2br($task->poas->Where('month',activemonth())->first()->solution):
                 '<font color="red">SIN REGISTRO</font>'!!}
                   </td>
                 </tr>

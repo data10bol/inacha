@@ -162,7 +162,7 @@
         </div>
         <div class="col-sm-12 col-md-7">
           <div class="pagination-wrapper">
-            {!! $operation->appends(['search' => Request::get('search')])->render() !!}
+            
           </div>
         </div>
       </div>
