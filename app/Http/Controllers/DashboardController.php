@@ -96,6 +96,7 @@ class DashboardController extends Controller
 
         $tasks = $task->//Wherein('operation_id', $operations->pluck('id')->toArray())->
                         orderByRaw(DB::raw("FIELD(operation_id, $operations_ordered)"))->
+                        Where('created_at','>',(string)activeyear())->
                         WhereHas('users', 
                         function ($q)use ($user_id) {
                           $q->where('user_id', $user_id);
