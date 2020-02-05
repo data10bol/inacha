@@ -68,6 +68,12 @@ class DashboardController extends Controller
                               where('created_at','>',(string)activeyear())->
                               pluck('definition_id')->
                               ToArray();
+      if(Auth::user()->hasRole('Administrador')){
+        $ids = \App\Definition::Where('definition_type','App\Operation')->
+                                where('created_at','>',(string)activeyear())->
+                                pluck('definition_id')->
+                                ToArray();
+      }
       $operations = $operation->Wherein('id', $ids)->
                     //orderByRaw(DB::raw("FIELD(action_id, $actions_ordered)"))->
                     OrderBy('code', 'ASC')->

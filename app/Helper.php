@@ -1186,7 +1186,7 @@ function chartaccum($id, $type, $graph, $m, $name)
     case 'ACCUMMONTH':
       $month = 'm' . $m;
 
-      $datap = number_format((float)accum($id, $type, false, 12), 2, '.', '');
+      $datap = number_format((float)accum($id, $type, false, $m), 2, '.', '');
       $datae = number_format((float)accum($id, $type, true, $m), 2, '.', '');
 
       $chart = graphcolumn($name, $datap, $datae, 450, 350);
