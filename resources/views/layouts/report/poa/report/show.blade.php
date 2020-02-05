@@ -23,7 +23,7 @@
     $accume = accum($item->id,'Action',true,$currentmonth);
   @endphp
   <tr style="font-weight:bold" bgcolor="#d3d3d3">
-    <td class="align-top text-left" width="75">
+    <td class="align-top text-left">
       <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
       {{ $item->goal->code }}.{{
                           $item->code }}<br>
@@ -32,7 +32,7 @@
       @endif
       </span>
     </td>
-    <td class="align-top text-justify" width="120 px">
+    <td class="align-top text-justify">
       <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
       {!! substr($item->definitions->last()->description, 0, 200) !!}
       {!! strlen($item->definitions->last()->description) > 200 ? '...' : '' !!}
@@ -63,15 +63,13 @@
       {{ number_format((float)$accume, 2, '.', '') }}
       </span>
     </td>
-    <td class="align-top text-center">
-      {!! arrows(number_format((float)($accump>0)?$accume*100/$accump:0, 2, '.', '')) !!}
-    </td>
+    
     <td class="align-top text-center">
       <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
       {{ number_format((float)($accump>0)?$accume*100/$accump:0, 2, '.', '') }}%
       </span>
     </td>
-    <td class="align-top text-left" width="200px">
+    <td class="align-top text-left">
       <span lang=ES-BO style='font-size:6.0pt;font-family:"Arial",sans-serif'>
       {!! isset($item->poas->
           Where('state',true)->
@@ -95,14 +93,11 @@
       </span>
     </td>
     <td class="align-top text-center">
-      {!! arrows(number_format((float)($prog>0)?$exec*100/$prog:0, 2, '.', '')) !!}
-    </td>
-    <td class="align-top text-center">
       <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
       {{ number_format((float)($prog>0)?$exec*100/$prog:0, 2, '.', '') }}%
       </span>
     </td>
-    <td class="align-top text-left" width="30px">
+    <td class="align-top text-left" >
       <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
       {{ $item->department->name }}
       </span>
@@ -170,9 +165,7 @@
         {{ number_format((float)$accume, 2, '.', '') }}
         </span>
       </td>
-      <td class="align-top text-center">
-        {!! arrows(number_format((float)($accump>0)?$accume*100/$accump:0, 2, '.', '')) !!}
-      </td>
+      
       <td class="align-top text-center">
         <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
         {{ number_format((float)($accump>0)?$accume*100/$accump:0, 2, '.', '') }}%
@@ -201,9 +194,6 @@
         <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
         {{ $exec  }}
         </span>
-      </td>
-      <td class="align-top text-center">
-        {!! arrows(number_format((float)($prog>0)?$exec*100/$prog:0, 2, '.', '')) !!}
       </td>
       <td class="align-top text-center">
         <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
@@ -263,9 +253,7 @@
           {{ number_format((float)$accume, 2, '.', '') }}
           </span>
         </td>
-        <td class="align-top text-center">
-          {!! arrows(number_format((float)($accump>0)?$accume*100/$accump:0, 2, '.', '')) !!}
-        </td>
+        
         <td class="align-top text-center">
           <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
           {{ number_format((float)($accump>0)?$accume*100/$accump:0, 2, '.', '') }}%
@@ -289,9 +277,6 @@
           <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
           {{ $exec  }}
           </span>
-        </td>
-        <td class="align-top text-center">
-          {!! arrows(number_format((float)($prog>0)?$exec*100/$prog:0, 2, '.', '')) !!}
         </td>
         <td class="align-top text-center">
           <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>

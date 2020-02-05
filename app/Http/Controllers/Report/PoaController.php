@@ -283,7 +283,7 @@ class PoaController extends Controller
       $department = \App\Department::FindorFail($id);
       $header = ([
         [
-          "text" => 'CÓDIGO',
+          "text" => 'CÓD.',
           "align" => 'center'
         ], [
           "text" => 'ACCIÓN CORTO PLAZO / OPERACIÓN / TAREA',

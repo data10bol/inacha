@@ -2450,7 +2450,21 @@ function quantity_exe($id,$type,$month){
             $con++;
           }else{
             if((empty($task->poas()->where('month', $month)->first()->$m))&&($task->poas()->where('state',false)->where('in','<=', activemonth())->where('out','>=',activemonth())->pluck('m'.activemonth())->first()>0)){
-              $arre[4] .= $task->operation->action->goal->code.'.'.$task->operation->action->code.'.'.$task->operation->code.'.'.$task->code."<br>";
+              $uss = ' ';
+              $nn = 1;
+              if($task->users->count()){
+                foreach ($task->users as $user) {
+                  if($nn == 1){
+                    $uss .= strtoupper($user->username);
+                    $nn++;
+                  }else{
+                    $uss .= ', '.strtoupper($user->username);
+                  }
+                }
+              }else{
+                $uss .= "Sin Asignación";
+              }
+              $arre[4] .= '<strong>'.$task->operation->action->goal->code.'.'.$task->operation->action->code.'.'.$task->operation->code.'.'.$task->code."</strong> Resp.(".$uss.")<br>";
             }
           }
           if(($task->poas()->where('state',false)->where('in','<=', activemonth())->where('out','>=',activemonth())->pluck('m'.activemonth())->first()>0)){

@@ -72,16 +72,19 @@
 <main>
   <p align=center style='text-align:center'>
 
-  <table width="100%"
+  <table 
          border="1"
          cellpadding="2"
          cellspacing="2">
     <tr>
       @foreach($arg as $item)
-        <th align="{{ strtolower($item['align']) }}">
-              <span lang=ES-BO style='font-size:9.0pt;font-family:"Arial",sans-serif'>
-                <strong>{{ strtoupper($item['text']) }}</strong>
-              </span>
-        </th>
+      @if (strlen($item['text'])>0)
+      <th align="{{ strtolower($item['align']) }}" >
+        <span lang=ES-BO style='font-size:9.0pt;font-family:"Arial",sans-serif'>
+          <strong>{{ strtoupper($item['text']) }}</strong>
+        </span>
+      </th>
+      @endif
+        
       @endforeach
     </tr>
