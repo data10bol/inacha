@@ -329,6 +329,54 @@ class PoaController extends Controller
           "align" => 'center'
         ]
       ]);
+      $header2 = ([
+        [
+          "text" => 'CÓD.',
+          "align" => 'center'
+        ], [
+          "text" => ' OPERACIÓN / TAREA',
+          "align" => 'left'
+        ], [
+          "text" => 'POND. DEP.',
+          "align" => 'center'
+        ], [
+          "text" => 'META',
+          "align" => 'center'
+        ], [
+          "text" => 'INDICADOR',
+          "align" => 'left'
+        ], [
+          "text" => 'A.P.',
+          "align" => 'center'
+        ], [
+          "text" => 'A.E.',
+          "align" => 'center'
+        ], [
+          "text" => '',
+          "align" => 'center'
+        ], [
+          "text" => '%EF',
+          "align" => 'center'
+        ], [
+          "text" => 'LOGRO',
+          "align" => 'center'
+        ], [
+          "text" => 'PROG',
+          "align" => 'center'
+        ], [
+          "text" => 'EJEC',
+          "align" => 'center'
+        ], [
+          "text" => '',
+          "align" => 'center'
+        ], [
+          "text" => 'EFIC',
+          "align" => 'center'
+        ], [
+          "text" => 'DEPENDENCIA/ RESPONSABLE',
+          "align" => 'center'
+        ]
+      ]);
 
       $actions = Action::Where('year',activeyear())->
                   Where('department_id',$id)->
@@ -337,22 +385,41 @@ class PoaController extends Controller
         $month = $request->get('month');
       else
         $month = activemonth();
+      $ids = \App\Definition::where('created_at','>',(string)activeyear())->
+                              where('department_id',$id)->
+                              where('definition_type','App\Operation')->
+                              pluck('definition_id')->
+                              toarray();
+      $operations2 = \App\Operation::WhereIn('id',$ids)->get();
+      if (isset($type)) {
+        switch ($type) {
+          case '1':
+            logrec('pdf', \Route::currentRouteName());
+            $view = \View::make('layouts.report.poa.report.show',
+              compact(['actions', 'months','header','department']))
+              ->with('currentmonth', $month);
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('letter', 'landscape');
+            return $pdf->stream();
+            break;
+          case '2':
+            logrec('pdf', \Route::currentRouteName());
+            $view = \View::make('layouts.report.poa.report.show2',
+              compact(['operations2', 'months','header2','department']))
+              ->with('currentmonth', $month);
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view)->setPaper('letter', 'landscape');
+            return $pdf->stream();
+            break;
+          default:
+            return redirect()->back();
+            break;
+        }
 
-      if (isset($type) && $type == "pdf") {
-        logrec('pdf', \Route::currentRouteName());
-
-        $view = \View::make('layouts.report.poa.report.show',
-          compact(['actions', 'months','header','department']))
-          ->with('currentmonth', $month);
-
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view)->setPaper('letter', 'landscape');
-        return $pdf->stream();
       } else {
         logrec('html', \Route::currentRouteName());
-
         return view('layouts.report.poa.indexdep',
-          compact(['actions', 'months','header','department']))
+          compact(['actions', 'months','header','department','header2','operations2']))
           ->with('data', $this->data)
           ->with('currentmonth', $month);
       }

@@ -76,6 +76,9 @@ class ExecutionOperationController extends Controller
         "text" => 'E(%)',
         "align" => 'center'
       ], [
+        "text" => 'DEP. RESPONSABLE',
+        "align" => 'center'
+      ], [
         "text" => 'INICIO',
         "align" => 'center'
       ], [

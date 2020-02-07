@@ -174,14 +174,18 @@
       <td class="align-top text-left">
         <span lang=ES-BO style='font-size:6.0pt;font-family:"Arial",sans-serif'>
             @php
-                isset($operation->poas->Where('state',true)->Where('month',$currentmonth)->first()->success)?$aux=$operation->poas->Where('state',true)->Where('month',$currentmonth)->first()->success:$aux='';
-                $caracteres = strlen($aux);
-                $emp = 1;
-                for ($i=500; $i < $caracteres ; $i=$i+500) { 
-                    $a = substr($aux, $emp, $i);
-                    echo($a.'<br>');
-                    $emp = 1 + $i;
+                if(isset($operation->poas->Where('state',true)->Where('month',$currentmonth)->first()->success)){
+                  echo $operation->poas->Where('state',true)->Where('month',$currentmonth)->first()->success;
+                }else{
+                  echo '';
                 }
+                // $caracteres = strlen($aux);
+                // $emp = 0;
+                // for ($i=200; $i < $caracteres ; $i=$i+200) { 
+                //     $a = substr($aux, $emp, $i);
+                //     echo($a.'<br>');
+                //     $emp = 0 + $i;
+                // }
             @endphp
         </span>
       </td>

@@ -97,6 +97,9 @@
                         @endif
                       </td>
                       <td class="align-top text-center">
+                        {!!($item->definitions->last()->department)?$item->definitions->last()->department->initial:null!!}
+                      </td>
+                      <td class="align-top text-center">
                         {{ ucfirst($months[$item->definitions->pluck('start')->last()]) }}
                       </td>
                       <td class="align-top text-center">

@@ -26,9 +26,12 @@
 
   </head>
 
-  <body class="hold-transition login-page">
+  <body class="hold-transition login-page" style="background-image: linear-gradient(
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.7)
+  ),url('{{ asset('img/plazamurillo.jpg') }}');">
   <div class="limiter">
-    <div class="container-login100" style="background-image: url('{{ asset('img/plazamurillo.jpg') }}');">
+    <div class="container-login100" >
       <div class="login-box">
         <div class="login-logo">
 
