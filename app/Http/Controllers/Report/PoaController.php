@@ -373,7 +373,7 @@ class PoaController extends Controller
           "text" => 'EFIC',
           "align" => 'center'
         ], [
-          "text" => 'DEPENDENCIA/ RESPONSABLE',
+          "text" => 'RESPONSABLE',
           "align" => 'center'
         ]
       ]);

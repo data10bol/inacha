@@ -110,7 +110,7 @@
       </td>
       <td class="align-top text-left">
         <span lang=ES-BO style='font-size:8.0pt;font-family:"Arial",sans-serif'>
-        {{ $operation->action->department->name }}
+          {{ $operation->definitions->last()->department->name }}
         </span>
       </td>
     </tr>

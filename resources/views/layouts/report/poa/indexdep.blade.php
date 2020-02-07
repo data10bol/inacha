@@ -290,7 +290,7 @@
                         ($prog>0)?$exec*100/$prog:0), 2, '.', '') }}%
                       </td>
                       <td class="align-top text-left">
-                        {{ $operation->action->department->name }}
+                        {{ $operation->definitions->last()->department->name }}
                       </td>
                     </tr>
                     @php
@@ -578,7 +578,7 @@
                           ($prog>0)?$exec*100/$prog:0), 2, '.', '') }}%
                         </td>
                         <td class="align-top text-left">
-                          {{ $operation->action->department->name }}
+                          {{ $operation->definitions->last()->department->name }}
                         </td>
                       </tr>
                       @php
