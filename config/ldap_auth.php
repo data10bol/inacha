@@ -86,7 +86,7 @@ return [
 
         // Only allows users with a uid to authenticate.
         // Suitable when using OpenLDAP.
-        // Adldap\Laravel\Scopes\UidScope::class,
+        //Adldap\Laravel\Scopes\UidScope::class,
 
     ],
 
@@ -260,7 +260,7 @@ return [
     'sync_attributes' => [
 
         'username' => 'samaccountname',
-
+        'employee' => 'employeeid',
         'name' => 'cn',
 
     ],

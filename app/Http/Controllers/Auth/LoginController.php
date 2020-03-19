@@ -8,11 +8,27 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Auth;
 use Carbon\Carbon;
+use Adldap\AdldapInterface;
 
 //use App\User;
 
 class LoginController extends Controller
 {
+  /**
+   * @var Adldap
+   */
+  protected $ldap;
+
+  /**
+   * Constructor.
+   *
+   * @param AdldapInterface $adldap
+   */
+  public function __construct(AdldapInterface $ldap)
+  {
+    $this->middleware('guest')->except('logout');
+    $this->ldap = $ldap;
+  }
   /*
   |--------------------------------------------------------------------------
   | Login Controller
@@ -45,8 +61,22 @@ class LoginController extends Controller
   public function login(LoginRequest $request)
   {
     $credentials = request()->except(['_token']);
+    if (Auth::attempt($credentials)){
+      if(Auth::user()->employee == 0){
+        $user = \App\User::find(Auth::user()->id);
+        $user->status = 0;
+        $user->save();
+        Auth::logout();
+        \Toastr::error("Error en el ingreso.",
+        $title = 'ATENCIÓN',
+        $options = [
+          'closeButton' => 'true',
+          'hideMethod' => 'slideUp',
+          'closeEasing' => 'easeInBack',
+        ]);
+        return redirect()->back();
+      }
 
-    if (Auth::attempt($credentials)) {
       $user = Auth::user();
       $user->update([
         'login_at' => Carbon::now()->toDateTimeString(),
@@ -117,10 +147,7 @@ class LoginController extends Controller
   }
 
 
-  public function __construct()
-  {
-    $this->middleware('guest')->except('logout');
-  }
+  
 }
 
 function chekar($action='cifrar',$string=false){
