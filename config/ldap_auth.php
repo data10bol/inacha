@@ -260,7 +260,7 @@ return [
     'sync_attributes' => [
 
         'username' => 'samaccountname',
-        'employee' => 'employeeid',
+       // 'employee' => 'employeeid',
         'name' => 'cn',
 
     ],
