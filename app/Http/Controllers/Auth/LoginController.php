@@ -62,20 +62,20 @@ class LoginController extends Controller
   {
     $credentials = request()->except(['_token']);
     if (Auth::attempt($credentials)){
-      if(Auth::user()->employee == 0){
-        $user = \App\User::find(Auth::user()->id);
-        $user->status = 0;
-        $user->save();
-        Auth::logout();
-        \Toastr::error("Error en el ingreso.",
-        $title = 'ATENCIÓN',
-        $options = [
-          'closeButton' => 'true',
-          'hideMethod' => 'slideUp',
-          'closeEasing' => 'easeInBack',
-        ]);
-        return redirect()->back();
-      }
+      //if(Auth::user()->employee == 0){
+      //$user = \App\User::find(Auth::user()->id);
+      //$user->status = 0;
+      //$user->save();
+      //Auth::logout();
+      //\Toastr::error("Error en el ingreso.",
+      //$title = 'ATENCIÓN',
+      //$options = [
+      //  'closeButton' => 'true',
+      //  'hideMethod' => 'slideUp',
+      //  'closeEasing' => 'easeInBack',
+      //]);
+      //return redirect()->back();
+      //}
 
       $user = Auth::user();
       $user->update([
